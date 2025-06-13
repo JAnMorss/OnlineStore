@@ -1,8 +1,8 @@
-﻿using OnlineStoreAPI.Shared.Kernel.Domain;
+﻿using System.Text.RegularExpressions;
+using OnlineStoreAPI.Shared.Kernel.Domain;
 using OnlineStoreAPI.Shared.Kernel.ErrorHandling;
-using System.Text.RegularExpressions;
 
-namespace OnlineStoreAPI.Domain.Users.ValueObjects
+namespace OnlineStoreAPI.Domain.Customers.ValueObjects
 {
     public sealed class Email : ValueObject
     {
