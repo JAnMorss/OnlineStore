@@ -1,12 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using OnlineStoreAPI.Domain.Products.Entities;
 
 namespace OnlineStoreAPI.Domain.Products.Interfaces
 {
-    internal interface IProductRepository
+    public interface IProductRepository
     {
+        Task<IEnumerable<Product>> GetAllAsync(CancellationToken cancellationToken = default);
+
+        Task<Product?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
+
+        Task<IEnumerable<Product>> SearchAsync(string keyword, int page, int pageSize, CancellationToken cancellationToken = default);
+
+        Task<IEnumerable<Product>> GetByCategoryIdAsync(Guid categoryId, CancellationToken cancellationToken = default);
+
+        Task<bool> ExistsAsync(Guid id, CancellationToken cancellationToken = default);
+
+        Task AddAsync(Product product, CancellationToken cancellationToken = default);
+
+        Task UpdateAsync(Product product, CancellationToken cancellationToken = default);
+
+        Task DeleteAsync(Guid id, CancellationToken cancellationToken = default);
     }
 }

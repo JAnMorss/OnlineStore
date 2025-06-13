@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using OnlineStoreAPI.Domain.Payments.Entities;
 
 namespace OnlineStoreAPI.Domain.Payments.Interfaces
 {
-    internal interface IPaymentRepository
+    public interface IPaymentRepository
     {
+        Task<Payment?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
+        Task<Payment?> GetByOrderIdAsync(Guid orderId, CancellationToken cancellationToken = default);
+        Task AddAsync(Payment payment, CancellationToken cancellationToken = default);
     }
 }

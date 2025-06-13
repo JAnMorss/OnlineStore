@@ -1,12 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using OnlineStoreAPI.Domain.Orders.Entities;
 
-namespace OnlineStoreAPI.Domain.Orders.Interface
+namespace OnlineStoreAPI.Domain.Orders.Interfaces
 {
-    internal interface IOrderRepository
+    public interface IOrderRepository
     {
+        Task<IEnumerable<Order>> GetAllAsync(CancellationToken cancellationToken = default);
+
+        Task<Order?> GetByIdAsync(Guid orderId, CancellationToken cancellationToken = default);
+
+        Task<IEnumerable<Order>> GetByCustomerIdAsync(Guid customerId, CancellationToken cancellationToken = default);
+
+        Task AddAsync(Order order, CancellationToken cancellationToken = default);
+
+        Task UpdateAsync(Order order, CancellationToken cancellationToken = default);
+
+        Task DeleteAsync(Guid orderId, CancellationToken cancellationToken = default);
+
+        Task<bool> ExistsAsync(Guid orderId, CancellationToken cancellationToken = default);
     }
 }

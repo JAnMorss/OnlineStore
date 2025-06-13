@@ -1,12 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using OnlineStoreAPI.Domain.Categories.Entities;
 
-namespace OnlineStoreAPI.Domain.Categories.Interface
+namespace OnlineStoreAPI.Domain.Categories.Interfaces
 {
-    internal class IApartmentRepository
+    public interface ICategoryRepository
     {
+        Task<IEnumerable<Category>> GetAllAsync(CancellationToken cancellationToken = default);
+
+        Task<Category?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
+
+        Task<bool> ExistsAsync(Guid id, CancellationToken cancellationToken = default);
+
+        Task AddAsync(Category category, CancellationToken cancellationToken = default);
+
+        Task UpdateAsync(Category category, CancellationToken cancellationToken = default);
+
+        Task DeleteAsync(Guid id, CancellationToken cancellationToken = default);
     }
 }

@@ -1,12 +1,41 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using OnlineStoreAPI.Shared.Kernel.Domain;
+using OnlineStoreAPI.Shared.Kernel.ErrorHandling;
 
-namespace OnlineStoreAPI.Domain.Sellers.ValuObjects
+namespace OnlineStoreAPI.Domain.Users.ValueObjects
 {
-    internal class StoreDescription
+    public sealed class StoreDescription : ValueObject
     {
+        public string Value { get; }
+
+        public const int MaxLength = 300;
+
+        private StoreDescription(string value)
+        {
+            Value = value;
+        }
+
+        public static Result<StoreDescription> Create(string description)
+        {
+            if (description is null)
+            {
+                return Result.Failure<StoreDescription>(new Error(
+                    "StoreDescription.Null",
+                    "Store description cannot be null."));
+            }
+
+            if (description.Length > MaxLength)
+            {
+                return Result.Failure<StoreDescription>(new Error(
+                    "StoreDescription.TooLong",
+                    $"Store description is too long. Maximum length is {MaxLength} characters."));
+            }
+
+            return new StoreDescription(description.Trim());
+        }
+
+        public override IEnumerable<object> GetAtomicValues()
+        {
+            yield return Value;
+        }
     }
 }

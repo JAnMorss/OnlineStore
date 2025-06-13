@@ -1,7 +1,7 @@
 ﻿using OnlineStoreAPI.Shared.Kernel.Domain;
 using OnlineStoreAPI.Shared.Kernel.ErrorHandling;
 
-namespace OnlineStoreAPI.Domain.Customers.ValueObjects
+namespace OnlineStoreAPI.Domain.Users.ValueObjects
 {
     public sealed class Address : ValueObject
     {

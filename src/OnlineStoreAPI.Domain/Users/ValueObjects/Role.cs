@@ -1,8 +1,5 @@
 ﻿using OnlineStoreAPI.Shared.Kernel.Domain;
 using OnlineStoreAPI.Shared.Kernel.ErrorHandling;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace OnlineStoreAPI.Domain.Users.ValueObjects
 {
@@ -16,14 +13,12 @@ namespace OnlineStoreAPI.Domain.Users.ValueObjects
         }
 
         public static readonly Role Admin = new("Admin");
-        public static readonly Role Customer = new("Customer");
-        public static readonly Role Seller = new("Seller");
+        public static readonly Role User = new("User");
         public static readonly Role Guest = new("Guest");
 
         public static IEnumerable<Role> List() => new[] { 
-                Admin, 
-                Customer, 
-                Seller, 
+                Admin,
+                User, 
                 Guest 
             };
 

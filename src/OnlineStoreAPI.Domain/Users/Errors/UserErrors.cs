@@ -1,12 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using OnlineStoreAPI.Domain.Users.Profiles;
+using OnlineStoreAPI.Shared.Kernel.ErrorHandling;
 
 namespace OnlineStoreAPI.Domain.Users.Errors
 {
-    internal class UserErrors
+    public static class UserErrors
     {
+        public static Error SellerProfileExists = new(
+            "SellerProfile.Exists", 
+            "Seller profile already exists.");
+
+        public static Error NotFound = new(
+            "User.Found", 
+            "The user with the specified identifier was not found");
+
+        public static Error CustomerProfileExists = new(
+            "CustomerProfile.Exists", 
+            "Customer profile already exists.");
+
+        public static Error UserSameRole= new (
+            "User.SameRole", 
+            "The new role is the same as the current role.");
     }
 }
