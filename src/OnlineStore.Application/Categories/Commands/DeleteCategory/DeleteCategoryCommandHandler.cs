@@ -19,18 +19,16 @@ namespace OnlineStore.Application.Categories.Commands.DeleteCategory
 
         public async Task<Result<Guid>> Handle(DeleteCategoryCommand request, CancellationToken cancellationToken)
         {
-            var exists = await _repository.ExistsAsync(request.Id, cancellationToken);
+            var category = await _repository.GetByIdAsync(request.Id, cancellationToken);
 
-            if (!exists)
-            {
+            if (category is null)
                 return Result.Failure<Guid>(CategoryErrors.NotFound);
-            }
 
-            await _repository.DeleteAsync(request.Id, cancellationToken);
+            await _repository.DeleteAsync(category.Id, cancellationToken);
 
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-            return Result.Success(request.Id);
+            return Result.Success(category.Id);
         }
     }
 }

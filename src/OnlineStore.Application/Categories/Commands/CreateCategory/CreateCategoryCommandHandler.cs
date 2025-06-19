@@ -20,13 +20,10 @@ namespace OnlineStore.Application.Categories.Commands.CreateCategory
 
         public async Task<Result<Guid>> Handle(CreateCategoryCommand request, CancellationToken cancellationToken)
         {
-            var nameResult = CategoryName.Create(request.Name);
-            var descriptionResult = CategoryDescription.Create(request.Description);
-
             var category = new Category(
                 Guid.NewGuid(),
-                nameResult.Value,
-                descriptionResult.Value);
+                CategoryName.Create(request.Name).Value,
+                CategoryDescription.Create(request.Description).Value);
 
             await _repository.AddAsync(category, cancellationToken);
 
