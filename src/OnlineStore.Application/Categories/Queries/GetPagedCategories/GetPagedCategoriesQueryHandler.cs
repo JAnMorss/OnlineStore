@@ -1,4 +1,5 @@
 ﻿using OnlineStore.Application.Abstractions.Messaging;
+using OnlineStore.Application.Abstractions.PageSize;
 using OnlineStore.Application.Categories.DTOs;
 using OnlineStoreAPI.Domain.Categories.Interfaces;
 using OnlineStoreAPI.Shared.Kernel.ErrorHandling;
@@ -20,13 +21,6 @@ namespace OnlineStore.Application.Categories.Queries.GetPagedCategories
                 request.Page,
                 request.PageSize,
                 cancellationToken);
-
-            if (!string.IsNullOrWhiteSpace(request.NameFilter))
-            {
-                categories = categories
-                    .Where(c => c.Name.Value.Contains(request.NameFilter, StringComparison.OrdinalIgnoreCase))
-                    .ToList();
-            }
 
             var dtoList = categories
                 .Select(c => new CategoryResponse(
