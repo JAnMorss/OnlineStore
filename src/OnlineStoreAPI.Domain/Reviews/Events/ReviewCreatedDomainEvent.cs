@@ -2,17 +2,8 @@
 
 namespace OnlineStoreAPI.Domain.Reviews.Events
 {
-    public sealed class ReviewCreatedDomainEvent : IDomainEvent
-    {
-        public Guid ReviewId { get; }
-        public int Rating { get; }
-        public string Comment { get; }
-
-        public ReviewCreatedDomainEvent(Guid reviewId, int rating, string comment)
-        {
-            ReviewId = reviewId;
-            Rating = rating;
-            Comment = comment;
-        }
-    }
+    public sealed record ReviewCreatedDomainEvent(
+        Guid ReviewId,
+        int Rating,
+        string Comment) : IDomainEvent;
 }

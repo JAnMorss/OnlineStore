@@ -2,13 +2,5 @@
 
 namespace OnlineStoreAPI.Domain.Categories.Events
 {
-    public sealed class CategoryUpdatedDomainEvent : IDomainEvent
-    {
-        public Guid CategoryId { get; }
-        public CategoryUpdatedDomainEvent(Guid categoryId)
-        {
-            CategoryId = categoryId;
-        }
-
-    }
+    public sealed record CategoryUpdatedDomainEvent(Guid CategoryId) : IDomainEvent;
 }
