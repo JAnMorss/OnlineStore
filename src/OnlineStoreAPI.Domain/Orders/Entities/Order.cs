@@ -1,4 +1,5 @@
 ﻿using OnlineStoreAPI.Domain.OrderItems.Entities;
+using OnlineStoreAPI.Domain.Orders.Enums;
 using OnlineStoreAPI.Domain.Orders.Errors;
 using OnlineStoreAPI.Domain.Orders.Events;
 using OnlineStoreAPI.Domain.Payments.Entities;
@@ -13,15 +14,23 @@ namespace OnlineStoreAPI.Domain.Orders.Entities
         private Order() { }
 
         public Order(
-            Guid id, 
-            Guid paymentId, 
+            Guid id,
+            Guid userId,
+            Guid paymentId,
             DateTime orderDate,
-            Currency currency) : base(id)
+            Currency currency,
+            Address billingAddress,
+            Address shippingAddress,
+            Payment payment) : base(id)
         {
+            UserId = userId;
             PaymentId = paymentId;
             OrderDate = orderDate;
             TotalAmount = Money.Zero(currency);
+            BillingAddress = billingAddress;
+            ShippingAddress = shippingAddress;
         }
+
 
         public Guid UserId { get; private set; }
 
@@ -31,7 +40,14 @@ namespace OnlineStoreAPI.Domain.Orders.Entities
 
         public Money TotalAmount { get; private set; }
 
+        public Address BillingAddress { get; private set; }
+
+        public Address ShippingAddress { get; private set; }
+
         public Payment? Payment { get; private set; }
+
+        public OrderStatus Status { get; private set; } = OrderStatus.Pending;
+
 
         public ICollection<OrderItem> OrderItems { get; private set; } = new List<OrderItem>();
 
@@ -57,6 +73,33 @@ namespace OnlineStoreAPI.Domain.Orders.Entities
         {
             Payment = payment;
             PaymentId = payment.Id;
+        }
+
+        public Result Cancel()
+        {
+            if(Status == OrderStatus.Shipped || Status == OrderStatus.Delivered)
+            {
+                return Result.Failure(OrderErrors.CannotCancelShippedOrDelivered);
+            }
+
+            Status = OrderStatus.Cancelled;
+
+            RaiseDomainEvent(new OrderCancelledDomainEvent(Id));
+
+            return Result.Success();
+        }
+
+        public Result MarkAsShipped()
+        {
+            if (Status != OrderStatus.Pending)
+            {
+                return Result.Failure(OrderErrors.CannotShipNonPendingOrder);
+            }
+
+            Status = OrderStatus.Shipped;
+            RaiseDomainEvent(new OrderShippedDomainEvent(Id));
+
+            return Result.Success();
         }
     }
 }

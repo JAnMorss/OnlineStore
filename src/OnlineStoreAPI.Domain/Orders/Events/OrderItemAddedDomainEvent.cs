@@ -2,16 +2,6 @@
 
 namespace OnlineStoreAPI.Domain.Orders.Events
 {
-    public sealed class OrderItemAddedDomainEvent : IDomainEvent
-    {
-        public Guid OrderId { get; }
+    public sealed record OrderItemAddedDomainEvent(Guid OrderId, Guid OrderItemId) : IDomainEvent;
 
-        public Guid OrderItemId { get; }
-
-        public OrderItemAddedDomainEvent(Guid orderId, Guid orderItemId)
-        {
-            OrderId = orderId;
-            OrderItemId = orderItemId;
-        }
-    }
 }
