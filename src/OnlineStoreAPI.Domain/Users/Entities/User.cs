@@ -1,4 +1,5 @@
-﻿using OnlineStoreAPI.Domain.Users.Errors;
+﻿using OnlineStoreAPI.Domain.Shared;
+using OnlineStoreAPI.Domain.Users.Errors;
 using OnlineStoreAPI.Domain.Users.Events;
 using OnlineStoreAPI.Domain.Users.Profiles;
 using OnlineStoreAPI.Domain.Users.ValueObjects;
@@ -23,6 +24,7 @@ namespace OnlineStoreAPI.Domain.Users.Entities
         }
 
         public UserName UserName { get; private set; }
+        public Address Address { get; private set; }
         public Email Email { get; private set; }
         public Role Role { get; private set; }
 

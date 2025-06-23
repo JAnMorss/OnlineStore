@@ -1,4 +1,5 @@
-﻿using OnlineStoreAPI.Domain.Users.ValueObjects;
+﻿using OnlineStoreAPI.Domain.Shared;
+using OnlineStoreAPI.Domain.Users.ValueObjects;
 
 namespace OnlineStoreAPI.Domain.Users.Profiles
 {
