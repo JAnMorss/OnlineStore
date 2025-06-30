@@ -15,12 +15,14 @@ namespace OnlineStoreAPI.Domain.Payments.Entities
             Guid orderId,
             Money amount, 
             DateTime paymentDate,
-            PaymentMethod paymentMethod) : base(id)
+            PaymentMethod paymentMethod,
+            PaymentStatus paymentStatus) : base(id)
         {
             OrderId = orderId;
             Amount = amount;
             PaymentDate = paymentDate;
             PaymentMethod = paymentMethod;
+            PaymentStatus = paymentStatus;
         }
 
         public Guid OrderId { get; private set; }
@@ -32,6 +34,8 @@ namespace OnlineStoreAPI.Domain.Payments.Entities
         public Order? Order { get; private set; }
 
         public PaymentMethod PaymentMethod { get; private set; }
+
+        public PaymentStatus PaymentStatus { get; private set; } = PaymentStatus.Pending;
 
         public void UpdateDetails(
             Money amount,
@@ -57,6 +61,11 @@ namespace OnlineStoreAPI.Domain.Payments.Entities
             PaymentMethod = newMethod;
 
             RaiseDomainEvent(new PaymentMethodChangedDomainEvent(Id));
+        }
+
+        public void ChangePaymentStatus(PaymentStatus newStatus)
+        {
+            PaymentStatus = newStatus;
         }
     }
 }
