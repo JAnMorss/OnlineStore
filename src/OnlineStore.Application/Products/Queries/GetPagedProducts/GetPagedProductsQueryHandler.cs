@@ -18,25 +18,14 @@ namespace OnlineStore.Application.Products.Queries.GetPagedProducts
 
         public async Task<Result<PagedResult<ProductResponse>>> Handle(GetPagedProductsQuery request, CancellationToken cancellationToken)
         {
-            var allProducts = await _repository.GetAllAsync(cancellationToken);
-            var totalCount = allProducts.Count();
+            var (items, totalCount) = await _repository.GetPagedAsync(
+                request.Page,
+                request.PageSize,
+                request.SortBy,
+                request.Descending,
+                cancellationToken);
 
-            var sorted = request.SortBy?.ToLower() switch
-            {
-                "price" => request.Descending
-                    ? allProducts.OrderByDescending(p => p.Price.Amount)
-                    : allProducts.OrderBy(p => p.Price.Amount),
-                "name" => request.Descending
-                    ? allProducts.OrderByDescending(p => p.Name.Value)
-                    : allProducts.OrderBy(p => p.Name.Value),
-                _ => allProducts
-            };
-
-            var paged = sorted
-                .Skip((request.Page - 1) * request.PageSize)
-                .Take(request.PageSize)
-                .Select(ProductResponse.FromEntity)
-                .ToList();
+            var paged = items.Select(ProductResponse.FromEntity).ToList();
 
             return Result.Success(new PagedResult<ProductResponse>(paged, totalCount));
         }
