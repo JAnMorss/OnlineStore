@@ -69,12 +69,10 @@ namespace OnlineStore.Application.Orders.Commands.PlaceOrder
             var order = new Order(
                 Guid.NewGuid(),
                 request.UserId,
-                Guid.Empty,
                 DateTime.UtcNow,
                 request.Currency,
                 billing,
-                shipping,
-                null! 
+                shipping
             );
 
             order.AddItem(orderItem);
@@ -90,10 +88,11 @@ namespace OnlineStore.Application.Orders.Commands.PlaceOrder
                 order.Id,
                 order.TotalAmount,
                 DateTime.UtcNow,
-                paymentMethod
+                paymentMethodResult.Value,
+                PaymentStatus.Pending
             );
 
-            order.AttachPayment(payment);
+            order.AttachPayment(payment.Id);
 
             await _orderRepository.AddAsync(order, cancellationToken);
             await _paymentRepository.AddAsync(payment, cancellationToken);
