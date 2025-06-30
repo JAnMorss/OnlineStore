@@ -16,25 +16,23 @@ namespace OnlineStoreAPI.Domain.Orders.Entities
         public Order(
             Guid id,
             Guid userId,
-            Guid paymentId,
             DateTime orderDate,
             Currency currency,
             Address billingAddress,
-            Address shippingAddress,
-            Payment payment) : base(id)
+            Address shippingAddress) : base(id)
         {
             UserId = userId;
-            PaymentId = paymentId;
             OrderDate = orderDate;
             TotalAmount = Money.Zero(currency);
             BillingAddress = billingAddress;
             ShippingAddress = shippingAddress;
         }
 
-
         public Guid UserId { get; private set; }
 
         public Guid? PaymentId { get; private set; }
+
+        public Payment? Payment { get; private set; } 
 
         public DateTime OrderDate { get; private set; }
 
@@ -44,24 +42,17 @@ namespace OnlineStoreAPI.Domain.Orders.Entities
 
         public Address ShippingAddress { get; private set; }
 
-        public Payment? Payment { get; private set; }
-
         public OrderStatus Status { get; private set; } = OrderStatus.Pending;
 
-
-        public ICollection<OrderItem> OrderItems { get; private set; } = new List<OrderItem>();
-
-        public IReadOnlyList<OrderItem> Items => OrderItems.ToList();
+        private readonly List<OrderItem> _orderItems = new();
+        public IReadOnlyList<OrderItem> OrderItems => _orderItems.AsReadOnly();
 
         public Result AddItem(OrderItem item)
         {
             if (item is null)
-            {
                 return Result.Failure(OrderErrors.OrderItemNull);
-            }
 
-            OrderItems.Add(item);
-
+            _orderItems.Add(item);
             TotalAmount = TotalAmount.Add(item.TotalPrice);
 
             RaiseDomainEvent(new OrderItemAddedDomainEvent(Id, item.Id));
@@ -69,18 +60,15 @@ namespace OnlineStoreAPI.Domain.Orders.Entities
             return Result.Success();
         }
 
-        public void AttachPayment(Payment payment)
+        public void AttachPayment(Guid paymentId)
         {
-            Payment = payment;
-            PaymentId = payment.Id;
+            PaymentId = paymentId;
         }
 
         public Result Cancel()
         {
-            if(Status == OrderStatus.Shipped || Status == OrderStatus.Delivered)
-            {
+            if (Status == OrderStatus.Shipped || Status == OrderStatus.Delivered)
                 return Result.Failure(OrderErrors.CannotCancelShippedOrDelivered);
-            }
 
             Status = OrderStatus.Cancelled;
 
@@ -92,11 +80,10 @@ namespace OnlineStoreAPI.Domain.Orders.Entities
         public Result MarkAsShipped()
         {
             if (Status != OrderStatus.Pending)
-            {
                 return Result.Failure(OrderErrors.CannotShipNonPendingOrder);
-            }
 
             Status = OrderStatus.Shipped;
+
             RaiseDomainEvent(new OrderShippedDomainEvent(Id));
 
             return Result.Success();
