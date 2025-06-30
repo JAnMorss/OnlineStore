@@ -12,6 +12,8 @@ namespace OnlineStoreAPI.Domain.Products.Interfaces
 
         Task<IEnumerable<Product>> GetByCategoryIdAsync(Guid categoryId, CancellationToken cancellationToken = default);
 
+        Task<(IEnumerable<Product> Items, int TotalCount)> GetPagedAsync(int page, int pageSize, string? sortBy, bool descending, CancellationToken cancellationToken = default);
+
         Task<bool> ExistsAsync(Guid id, CancellationToken cancellationToken = default);
 
 
