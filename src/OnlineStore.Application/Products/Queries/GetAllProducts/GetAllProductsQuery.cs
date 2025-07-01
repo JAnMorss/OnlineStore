@@ -3,5 +3,5 @@ using OnlineStore.Application.Products.DTO_s;
 
 namespace OnlineStore.Application.Products.Queries.GetAllProducts
 {
-    public record GetAllProductsQuery : IQuery<List<ProductResponse>>;
+    public sealed record GetAllProductsQuery : IQuery<List<ProductResponse>>;
 }

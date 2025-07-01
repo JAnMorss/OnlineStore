@@ -126,3 +126,4 @@ namespace OnlineStoreAPI.Domain.Products.Entities
 
     }
 }
+

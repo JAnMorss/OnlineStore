@@ -2,7 +2,7 @@
 
 namespace OnlineStore.Application.Products.Commands.UpdateProductStock
 {
-    public record UpdateProductStockCommand(
+    public sealed record UpdateProductStockCommand(
         Guid ProductId, 
         int NewStock) : ICommand<Guid>;
 }

@@ -2,7 +2,7 @@
 
 namespace OnlineStore.Application.Products.Commands.CreateProduct
 {
-    public record CreateProductCommand(
+    public sealed record CreateProductCommand(
         string Name,
         string Description,
         decimal Price,

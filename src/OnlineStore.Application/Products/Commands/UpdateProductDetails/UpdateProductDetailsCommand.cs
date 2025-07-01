@@ -2,7 +2,7 @@
 
 namespace OnlineStore.Application.Products.Commands.UpdateProductDetails
 {
-    public record UpdateProductDetailsCommand(
+    public sealed record UpdateProductDetailsCommand(
         Guid Id,
         string Name,
         string Description,
