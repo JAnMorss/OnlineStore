@@ -5,14 +5,14 @@ namespace OnlineStoreAPI.Domain.OrderItems.ValueObjects
 {
     public sealed class Quantity : ValueObject
     {
-        public decimal Value { get; }
+        public int Value { get; }
 
-        private Quantity(decimal value)
+        private Quantity(int value)
         {
             Value = value;
         }
 
-        public static Result<Quantity> Create(decimal quantity)
+        public static Result<Quantity> Create(int quantity)
         {
             if (quantity <= 0)
             {
