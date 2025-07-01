@@ -2,7 +2,7 @@
 
 namespace OnlineStore.Application.Categories.Commands.CreateCategory
 {
-    public record CreateCategoryCommand(
+    public sealed record CreateCategoryCommand(
         string Name,
         string Description) : ICommand<Guid>;
 }

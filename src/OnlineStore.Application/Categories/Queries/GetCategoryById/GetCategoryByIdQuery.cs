@@ -3,5 +3,5 @@ using OnlineStore.Application.Categories.DTOs;
 
 namespace OnlineStore.Application.Categories.Queries.GetCategoryById
 {
-    public record GetCategoryByIdQuery(Guid Id) : IQuery<CategoryResponse>;
+    public sealed record GetCategoryByIdQuery(Guid Id) : IQuery<CategoryResponse>;
 }

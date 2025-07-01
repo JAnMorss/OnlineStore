@@ -4,7 +4,7 @@ using OnlineStore.Application.Categories.DTOs;
 
 namespace OnlineStore.Application.Categories.Queries.GetPagedCategories
 {
-    public record GetPagedCategoriesQuery(
+    public sealed record GetPagedCategoriesQuery(
         int Page, 
         int PageSize,
         string? SortBy,

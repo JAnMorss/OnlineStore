@@ -2,7 +2,7 @@
 
 namespace OnlineStore.Application.Categories.Commands.UpdateCategory
 {
-    public record UpdateCategoryCommand(
+    public sealed record UpdateCategoryCommand(
         Guid Id,
         string Name,
         string Description) : ICommand<Guid>;

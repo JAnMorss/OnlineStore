@@ -3,5 +3,5 @@ using OnlineStore.Application.Categories.DTOs;
 
 namespace OnlineStore.Application.Categories.Queries.GetCategories
 {
-    public record GetAllCategoriesQuery() : IQuery<List<CategoryResponse>>;
+    public sealed record GetAllCategoriesQuery() : IQuery<List<CategoryResponse>>;
 }

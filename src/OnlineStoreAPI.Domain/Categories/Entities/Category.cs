@@ -32,3 +32,5 @@ namespace OnlineStoreAPI.Domain.Categories.Entities
 
     }
 }
+
+
