@@ -18,8 +18,4 @@
     <ProjectReference Include="..\Shared.Kernel\OnlineStoreAPI.Shared.Kernel\OnlineStoreAPI.Shared.Kernel.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Orders\Queries\" />
-  </ItemGroup>
-
 </Project>
