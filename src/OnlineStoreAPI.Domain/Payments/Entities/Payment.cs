@@ -69,3 +69,5 @@ namespace OnlineStoreAPI.Domain.Payments.Entities
         }
     }
 }
+
+
