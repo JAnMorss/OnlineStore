@@ -2,5 +2,5 @@
 
 namespace OnlineStore.Application.Orders.Commands.MarkOrderAsShipped
 {
-    public record MarkOrderAsShippedCommand(Guid OrderId) : ICommand;
+    public sealed record MarkOrderAsShippedCommand(Guid OrderId) : ICommand;
 }   

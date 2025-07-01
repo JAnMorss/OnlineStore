@@ -2,5 +2,5 @@
 
 namespace OnlineStore.Application.Orders.Commands.CancelOrder
 {
-    public record CancelOrderCommand(Guid OrderId) : ICommand;
+    public sealed record CancelOrderCommand(Guid OrderId) : ICommand;
 }

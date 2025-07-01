@@ -5,7 +5,7 @@ using OnlineStoreAPI.Domain.Shared;
 
 namespace OnlineStore.Application.Orders.Commands.PlaceOrder
 {
-    public record PlaceOrderCommand(
+    public sealed record PlaceOrderCommand(
         Guid UserId,
         AddressDto BillingAddress,
         AddressDto ShippingAddress,
