@@ -7,7 +7,7 @@ using OnlineStoreAPI.Shared.Kernel.ErrorHandling;
 namespace OnlineStore.Application.Categories.Queries.GetPagedCategories
 {
     public sealed class GetPagedCategoriesQueryHandler
-        : IQueryHandler<GetPagedCategoriesQuery, PagedResult<CategoryResponse>>
+        : IQueryHandler<GetPagedCategoriesQuery, PaginatedResult<CategoryResponse>>
     {
         private readonly ICategoryRepository _repository;
         public GetPagedCategoriesQueryHandler(ICategoryRepository repository)
@@ -15,7 +15,7 @@ namespace OnlineStore.Application.Categories.Queries.GetPagedCategories
             _repository = repository;
         }
 
-        public async Task<Result<PagedResult<CategoryResponse>>> Handle(GetPagedCategoriesQuery request, CancellationToken cancellationToken)
+        public async Task<Result<PaginatedResult<CategoryResponse>>> Handle(GetPagedCategoriesQuery request, CancellationToken cancellationToken)
         {
             var (categories, totalCount) = await _repository.GetPagedAsync(
                 request.Page,
@@ -28,7 +28,7 @@ namespace OnlineStore.Application.Categories.Queries.GetPagedCategories
                     c.Name.Value,
                     c.Description.Value)).ToList();
 
-            return Result.Success(new PagedResult<CategoryResponse>(dtoList, totalCount));
+            return Result.Success(new PaginatedResult<CategoryResponse>(dtoList, totalCount));
         }
     }
 }

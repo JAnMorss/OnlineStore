@@ -8,5 +8,5 @@ namespace OnlineStore.Application.Categories.Queries.GetPagedCategories
         int Page, 
         int PageSize,
         string? SortBy,
-        bool Descending) : IQuery<PagedResult<CategoryResponse>>;
+        bool Descending) : IQuery<PaginatedResult<CategoryResponse>>;
 }
