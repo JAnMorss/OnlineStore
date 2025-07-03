@@ -10,10 +10,11 @@ namespace OnlineStore.Infrastructure.Repositories
         {
         }
 
-        public async Task<Payment?> GetByOrderIdAsync(Guid orderId, CancellationToken cancellationToken = default)
+        public async Task<List<Payment>> GetByOrderIdAsync(Guid orderId, CancellationToken cancellationToken = default)
         {
             return await _context.Payments
-               .FirstOrDefaultAsync(p => p.OrderId == orderId, cancellationToken);
+               .Where(p => p.OrderId == orderId)
+               .ToListAsync(cancellationToken);
         }
     }
 }
