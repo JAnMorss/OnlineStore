@@ -13,13 +13,13 @@ namespace OnlineStoreAPI.Domain.Reviews.Entities
         private Review(
             Guid id,
             Guid productId,
-            Guid customerId,
+            Guid userId,
             Rating rating,
             Comment comment,
             DateTime createdOnUtc) : base(id)
         {
             ProductId = productId;
-            CustomerId = customerId;
+            UserId = userId;
             Rating = rating;
             Comment = comment;
             CreatedOnUtc = createdOnUtc;
@@ -27,7 +27,7 @@ namespace OnlineStoreAPI.Domain.Reviews.Entities
 
         public Guid ProductId { get; private set; }
 
-        public Guid CustomerId { get; private set; }
+        public Guid UserId { get; private set; }
 
         public Rating Rating { get; private set; }
 
@@ -58,6 +58,22 @@ namespace OnlineStoreAPI.Domain.Reviews.Entities
                 review.Comment.Value));
 
             return Result.Success(review);
+        }
+
+        public Result Update(Rating newRating, Comment newComment)
+        {
+            if (newRating is null || newComment is null)
+                return Result.Failure(ReviewErrors.InvalidUpdate);
+            
+            Rating = newRating;
+            Comment = newComment;
+
+            RaiseDomainEvent(new ReviewUpdatedDomainEvent(
+                Id,
+                Rating.Value,
+                Comment.Value));
+
+            return Result.Success();
         }
     }
 }

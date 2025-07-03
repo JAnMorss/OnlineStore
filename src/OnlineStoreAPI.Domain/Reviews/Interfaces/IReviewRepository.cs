@@ -6,6 +6,8 @@ namespace OnlineStoreAPI.Domain.Reviews.Interfaces
     {
         Task<IEnumerable<Review>> GetByProductIdAsync(Guid productId, CancellationToken cancellationToken = default);
 
+        Task<Review> GetByIdAsync(Guid reviewId, CancellationToken cancellationToken);
+
         Task<Review?> GetByCustomerAndProductAsync(Guid customerId, Guid productId, CancellationToken cancellationToken = default);
 
         Task AddAsync(Review review, CancellationToken cancellationToken = default);
@@ -15,5 +17,6 @@ namespace OnlineStoreAPI.Domain.Reviews.Interfaces
         Task<bool> DeleteAsync(Guid reviewId, CancellationToken cancellationToken = default);
 
         Task<double> GetAverageRatingAsync(Guid productId, CancellationToken cancellationToken = default);
+        
     }
 }

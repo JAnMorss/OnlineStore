@@ -20,10 +20,10 @@ namespace OnlineStore.Infrastructure.Repositories
                 : 0.0;
         }
 
-        public async Task<Review?> GetByCustomerAndProductAsync(Guid customerId, Guid productId, CancellationToken cancellationToken = default)
+        public async Task<Review?> GetByCustomerAndProductAsync(Guid userId, Guid productId, CancellationToken cancellationToken = default)
         {
             return await _context.Reviews
-               .FirstOrDefaultAsync(r => r.CustomerId == customerId && r.ProductId == productId, cancellationToken);
+               .FirstOrDefaultAsync(r => r.UserId == userId && r.ProductId == productId, cancellationToken);
         }
 
         public async Task<IEnumerable<Review>> GetByProductIdAsync(Guid productId, CancellationToken cancellationToken = default)
