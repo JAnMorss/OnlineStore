@@ -7,7 +7,7 @@ namespace OnlineStoreAPI.Domain.Reviews.ValueObjects
     {
         public int Value { get; }
 
-        private Rating(int value)
+        public Rating(int value)
         {
             Value = value;
         }

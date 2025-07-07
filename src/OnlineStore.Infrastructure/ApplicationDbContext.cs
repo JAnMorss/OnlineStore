@@ -17,25 +17,21 @@ namespace OnlineStore.Infrastructure
     {
         private readonly IPublisher _publisher;
 
-        public ApplicationDbContext(DbContextOptions options, IPublisher publisher)
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options, IPublisher publisher)
             : base(options)
         {
             _publisher = publisher;
         }
 
-        // Products
-        public DbSet<Product> Products { get; set; } 
-        public DbSet<Category> Categories { get; set; } 
-        public DbSet<Review> Reviews { get; set; } 
+        public DbSet<Product> Products { get; set; }
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<Review> Reviews { get; set; }
 
-        // Orders
-        public DbSet<Order> Orders { get; set; } 
-        public DbSet<OrderItem> OrderItems { get; set; } 
-        public DbSet<Payment> Payments { get; set; } 
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderItem> OrderItems { get; set; }
+        public DbSet<Payment> Payments { get; set; }
 
-        // Users
         public DbSet<User> Users { get; set; }
-
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -45,16 +41,9 @@ namespace OnlineStore.Infrastructure
 
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
-            try
-            {
-                int result = await base.SaveChangesAsync(cancellationToken);
-                await PublishDomainEventsAsync();
-                return result;
-            }
-            catch (DbUpdateConcurrencyException ex)
-            {
-                throw new ArgumentException("A concurrency exception occurred during saving.", ex);
-            }
+            var result = await base.SaveChangesAsync(cancellationToken);
+            await PublishDomainEventsAsync();
+            return result;
         }
 
         private async Task PublishDomainEventsAsync()
@@ -62,19 +51,20 @@ namespace OnlineStore.Infrastructure
             var domainEvents = ChangeTracker
                 .Entries<Entity>()
                 .Select(e => e.Entity)
-                .SelectMany(e =>
+                .SelectMany(entity =>
                 {
-                    var events = e.GetDomainEvents();
-                    e.ClearDomainEvents();
+                    var events = entity.GetDomainEvents();
+                    entity.ClearDomainEvents();
                     return events;
                 })
                 .ToList();
 
-            if (domainEvents.Count == 0)
-                return;
-
-            var tasks = domainEvents.Select(@event => _publisher.Publish(@event));
-            await Task.WhenAll(tasks);
+            foreach (var domainEvent in domainEvents)
+            {
+                await _publisher.Publish(domainEvent);
+            }
         }
     }
 }
+
+

@@ -9,7 +9,7 @@ namespace OnlineStoreAPI.Domain.Reviews.ValueObjects
 
         public const int MaxLength = 500;
 
-        private Comment(string value)
+        public Comment(string value)
         {
             Value = value;
         }

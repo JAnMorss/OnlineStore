@@ -7,7 +7,7 @@ namespace OnlineStoreAPI.Domain.OrderItems.ValueObjects
     {
         public int Value { get; }
 
-        private Quantity(int value)
+        public Quantity(int value)
         {
             Value = value;
         }

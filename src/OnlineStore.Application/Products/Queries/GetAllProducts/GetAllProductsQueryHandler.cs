@@ -17,7 +17,7 @@ namespace OnlineStore.Application.Products.Queries.GetAllProducts
             _repository = repository;
         }
 
-        public async Task<Result<PaginatedResult<ProductResponse>>> IRequestHandler<GetAllProductsQuery, Result<PaginatedResult<ProductResponse>>>.Handle(GetAllProductsQuery request, CancellationToken cancellationToken)
+        public async Task<Result<PaginatedResult<ProductResponse>>> Handle(GetAllProductsQuery request, CancellationToken cancellationToken)
         {
             var (items, totalCount) = await _repository.GetPagedAsync(
                 request.Page,

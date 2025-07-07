@@ -12,10 +12,10 @@ namespace OnlineStoreAPI.Domain.Users.Entities
     {
         private User() { }
 
-        private User(
+        public User(
             Guid id,
             UserName userName,
-            Email email,
+            EmailVO email,
             Role role) : base(id)
         {
             UserName = userName;
@@ -25,7 +25,7 @@ namespace OnlineStoreAPI.Domain.Users.Entities
 
         public UserName UserName { get; private set; }
         public Address Address { get; private set; }
-        public Email Email { get; private set; }
+        public EmailVO Email { get; private set; }
         public Role Role { get; private set; }
 
         public CustomerProfile? CustomerProfile { get; private set; }
@@ -34,7 +34,7 @@ namespace OnlineStoreAPI.Domain.Users.Entities
 
         public static Result<User> Create(
             UserName userName,
-            Email email,
+            EmailVO email,
             Role role)
         {
             var user = new User(

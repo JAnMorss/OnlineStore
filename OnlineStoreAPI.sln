@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlineStore.Application", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlineStore.Infrastructure", "src\OnlineStore.Infrastructure\OnlineStore.Infrastructure.csproj", "{DD4199FE-8CCF-432E-BE55-7F0CE08CF394}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlineStore.API", "src\OnlineStore.API\OnlineStore.API.csproj", "{D19F2BD0-7ED9-4CA5-9B77-311FCCCA910C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{DD4199FE-8CCF-432E-BE55-7F0CE08CF394}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DD4199FE-8CCF-432E-BE55-7F0CE08CF394}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DD4199FE-8CCF-432E-BE55-7F0CE08CF394}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D19F2BD0-7ED9-4CA5-9B77-311FCCCA910C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D19F2BD0-7ED9-4CA5-9B77-311FCCCA910C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D19F2BD0-7ED9-4CA5-9B77-311FCCCA910C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D19F2BD0-7ED9-4CA5-9B77-311FCCCA910C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -49,6 +55,7 @@ Global
 		{EB402619-48BE-D7CA-5024-5D88BD817B40} = {D408613A-15D1-4A76-95C5-D48183E5A4DF}
 		{BBCD3A78-2AB4-4D96-9A6C-FD503913375B} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{DD4199FE-8CCF-432E-BE55-7F0CE08CF394} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{D19F2BD0-7ED9-4CA5-9B77-311FCCCA910C} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {ACF40AE3-10C9-4CD5-9221-F578777D5959}

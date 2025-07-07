@@ -9,7 +9,7 @@ namespace OnlineStoreAPI.Domain.Users.ValueObjects
 
         public const int MaxLength = 20;
 
-        private FirstName(string value)
+        public FirstName(string value)
         {
             Value = value;
         }

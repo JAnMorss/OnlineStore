@@ -7,7 +7,7 @@ namespace OnlineStoreAPI.Domain.Payments.ValueObjects
     {
         public string Value { get; }
 
-        private PaymentMethod(string value)
+        public PaymentMethod(string value)
         {
             Value = value;
         }

@@ -7,7 +7,7 @@ namespace OnlineStoreAPI.Domain.Users.ValueObjects
     {
         public string Value { get; }
 
-        private Role(string value)
+        public Role(string value)
         {
             Value = value;
         }

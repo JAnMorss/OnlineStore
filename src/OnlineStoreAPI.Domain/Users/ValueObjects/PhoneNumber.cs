@@ -10,7 +10,7 @@ namespace OnlineStoreAPI.Domain.Users.ValueObjects
 
         public const int MaxLength = 10;
 
-        private PhoneNumber(string value)
+        public PhoneNumber(string value)
         {
             Value = value;
         }
