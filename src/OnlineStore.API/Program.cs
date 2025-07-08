@@ -13,10 +13,6 @@ if (app.Environment.IsDevelopment())
 {
     app.MapScalarApiReference();
     app.MapOpenApi();
-
-    //app.ApplyMigrations();
-
-    //app.SeedData();
 }
 
 app.UseHttpsRedirection();
