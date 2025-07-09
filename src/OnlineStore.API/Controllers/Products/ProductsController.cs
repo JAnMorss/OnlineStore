@@ -27,7 +27,9 @@ namespace OnlineStore.API.Controllers.Products
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllProducts([FromQuery] GetAllProductsQuery query, CancellationToken cancellationToken)
+        public async Task<IActionResult> GetAllProducts(
+            [FromQuery] GetAllProductsQuery query, 
+            CancellationToken cancellationToken)
         {
             var result = await _sender.Send(query, cancellationToken);
 
@@ -35,7 +37,9 @@ namespace OnlineStore.API.Controllers.Products
         }
 
         [HttpGet("{id:guid}")]
-        public async Task<IActionResult> GetProductById([FromRoute] Guid id, CancellationToken cancellationToken)
+        public async Task<IActionResult> GetProductById(
+            [FromRoute] Guid id, 
+            CancellationToken cancellationToken)
         {
             var query = new GetProductByIdQuery(id);
 
@@ -47,7 +51,9 @@ namespace OnlineStore.API.Controllers.Products
         }
 
         [HttpGet("category/{categoryId:guid}")]
-        public async Task<IActionResult> GetProductsByCategory([FromRoute] Guid categoryId, CancellationToken cancellationToken)
+        public async Task<IActionResult> GetProductsByCategory(
+            [FromRoute] Guid categoryId, 
+            CancellationToken cancellationToken)
         {
             var queryId = new GetProductsByCategoryQuery(categoryId);
 
@@ -57,7 +63,9 @@ namespace OnlineStore.API.Controllers.Products
         }
 
         [HttpGet("search")]
-        public async Task<IActionResult> SearchProducts([FromQuery] SearchProductsQuery query, CancellationToken cancellationToken)
+        public async Task<IActionResult> SearchProducts(
+            [FromQuery] SearchProductsQuery query, 
+            CancellationToken cancellationToken)
         {
             var result = await _sender.Send(query, cancellationToken);
 
@@ -65,7 +73,9 @@ namespace OnlineStore.API.Controllers.Products
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateProduct([FromBody] CreateProductCommand command, CancellationToken cancellationToken)
+        public async Task<IActionResult> CreateProduct(
+            [FromBody] CreateProductCommand command, 
+            CancellationToken cancellationToken)
         {
             var result = await _sender.Send(command, cancellationToken);
 
@@ -76,7 +86,10 @@ namespace OnlineStore.API.Controllers.Products
         }
 
         [HttpPut("{id:guid}/details")]
-        public async Task<IActionResult> UpdateProductDetails([FromRoute] Guid id, [FromBody] UpdateProductDetailsCommand command, CancellationToken cancellationToken)
+        public async Task<IActionResult> UpdateProductDetails(
+            [FromRoute] Guid id, 
+            [FromBody] UpdateProductDetailsCommand command, 
+            CancellationToken cancellationToken)
         {
             if (id != command.Id)
                 return BadRequest("Product ID mismatch.");
@@ -89,7 +102,10 @@ namespace OnlineStore.API.Controllers.Products
         }
 
         [HttpPut("{id:guid}/stock")]
-        public async Task<IActionResult> UpdateProductStock([FromRoute] Guid id, [FromBody] UpdateProductStockCommand command, CancellationToken cancellationToken)
+        public async Task<IActionResult> UpdateProductStock(
+            [FromRoute] Guid id, 
+            [FromBody] UpdateProductStockCommand command, 
+            CancellationToken cancellationToken)
         {
             if (id != command.ProductId)
                 return BadRequest("Product ID mismatch.");
@@ -102,7 +118,10 @@ namespace OnlineStore.API.Controllers.Products
         }
 
         [HttpPut("{id:guid}/stock/increase")]
-        public async Task<IActionResult> IncreaseProductStock([FromRoute] Guid id,[FromBody] IncreaseProductStockCommand command, CancellationToken cancellationToken)
+        public async Task<IActionResult> IncreaseProductStock(
+            [FromRoute] Guid id,
+            [FromBody] IncreaseProductStockCommand command,
+            CancellationToken cancellationToken)
         {
             if (id != command.ProductId)
                 return BadRequest("Product ID mismatch.");
@@ -115,7 +134,10 @@ namespace OnlineStore.API.Controllers.Products
         }
 
         [HttpPut("{id:guid}/stock/decrease")]
-        public async Task<IActionResult> DecreaseProductStock([FromRoute] Guid id, [FromBody] DecreaseProductStockCommand command, CancellationToken cancellationToken)
+        public async Task<IActionResult> DecreaseProductStock(
+            [FromRoute] Guid id, 
+            [FromBody] DecreaseProductStockCommand command, 
+            CancellationToken cancellationToken)
         {
             if (id != command.ProductId)
                 return BadRequest("Product ID mismatch.");
@@ -128,7 +150,10 @@ namespace OnlineStore.API.Controllers.Products
         }
 
         [HttpPut("{id:guid}/price")]
-        public async Task<IActionResult> UpdateProductPrice([FromRoute] Guid id, [FromBody] UpdateProductPriceCommand command, CancellationToken cancellationToken)
+        public async Task<IActionResult> UpdateProductPrice(
+            [FromRoute] Guid id, 
+            [FromBody] UpdateProductPriceCommand command, 
+            CancellationToken cancellationToken)
         {
             if (id != command.ProductId)
                 return BadRequest("Product ID mismatch.");
@@ -141,7 +166,9 @@ namespace OnlineStore.API.Controllers.Products
         }
 
         [HttpDelete("{id:guid}")]
-        public async Task<IActionResult> DeleteProduct([FromRoute] Guid id, CancellationToken cancellationToken)
+        public async Task<IActionResult> DeleteProduct(
+            [FromRoute] Guid id, 
+            CancellationToken cancellationToken)
         {
             var command = new DeleteProductCommand(id);
 

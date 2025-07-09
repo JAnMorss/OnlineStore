@@ -21,7 +21,9 @@ namespace OnlineStore.API.Controllers.Categories
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllCategories([FromQuery] GetAllCategoriesQuery query, CancellationToken cancellationToken)
+        public async Task<IActionResult> GetAllCategories(
+            [FromQuery] GetAllCategoriesQuery query, 
+            CancellationToken cancellationToken)
         {
             var result = await _sender.Send(query, cancellationToken);
 
@@ -29,7 +31,9 @@ namespace OnlineStore.API.Controllers.Categories
         }
 
         [HttpGet("{id:guid}")]
-        public async Task<IActionResult> GetCategoryById([FromRoute] Guid id, CancellationToken cancellationToken)
+        public async Task<IActionResult> GetCategoryById(
+            [FromRoute] Guid id, 
+            CancellationToken cancellationToken)
         {
             var query = new GetCategoryByIdQuery(id);
 
@@ -41,7 +45,9 @@ namespace OnlineStore.API.Controllers.Categories
         }
 
         [HttpGet("search")]
-        public async Task<IActionResult> GetCategoriesByName([FromQuery] string name, CancellationToken cancellationToken)
+        public async Task<IActionResult> GetCategoriesByName(
+            [FromQuery] string name, 
+            CancellationToken cancellationToken)
         {
             var query = new GetCategoriesByNameQuery(name);
 
@@ -53,7 +59,9 @@ namespace OnlineStore.API.Controllers.Categories
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateCategory([FromBody] CreateCategoryCommand command, CancellationToken cancellationToken)
+        public async Task<IActionResult> CreateCategory(
+            [FromBody] CreateCategoryCommand command, 
+            CancellationToken cancellationToken)
         {
             var result = await _sender.Send(command, cancellationToken);
 
@@ -64,7 +72,10 @@ namespace OnlineStore.API.Controllers.Categories
         }
 
         [HttpPut("{id:guid}")]
-        public async Task<IActionResult> UpdateCategory([FromRoute] Guid id, [FromBody] UpdateCategoryCommand command, CancellationToken cancellationToken)
+        public async Task<IActionResult> UpdateCategory(
+            [FromRoute] Guid id, 
+            [FromBody] UpdateCategoryCommand command, 
+            CancellationToken cancellationToken)
         {
             if (id != command.Id)
                 return BadRequest("Category ID mismatch.");
@@ -77,7 +88,9 @@ namespace OnlineStore.API.Controllers.Categories
         }
 
         [HttpDelete("{id:guid}")]
-        public async Task<IActionResult> DeleteCategory([FromRoute] Guid id, CancellationToken cancellationToken)
+        public async Task<IActionResult> DeleteCategory(
+            [FromRoute] Guid id, 
+            CancellationToken cancellationToken)
         {
             var command = new DeleteCategoryCommand(id);
 
