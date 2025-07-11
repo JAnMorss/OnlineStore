@@ -29,12 +29,23 @@ namespace OnlineStore.Infrastructure.Configuration
             {
                 cp.Property(p => p.FirstName)
                     .HasConversion(x => x.Value, v => new FirstName(v));
+
                 cp.Property(p => p.LastName)
                     .HasConversion(x => x.Value, v => new LastName(v));
+
                 cp.Property(p => p.PhoneNumber)
                     .HasConversion(x => x.Value, v => new PhoneNumber(v));
-                cp.OwnsOne(p => p.Address);
+
+                cp.OwnsOne(p => p.Address, a =>
+                {
+                    a.Property(x => x.Street).HasColumnName("Customer_Street");
+                    a.Property(x => x.City).HasColumnName("Customer_City");
+                    a.Property(x => x.Barangay).HasColumnName("Customer_Barangay");
+                    a.Property(x => x.ZipCode).HasColumnName("Customer_ZipCode");
+                    a.Property(x => x.Country).HasColumnName("Customer_Country");
+                });
             });
+
 
             builder.OwnsOne(x => x.SellerProfile, sp =>
             {
@@ -44,7 +55,14 @@ namespace OnlineStore.Infrastructure.Configuration
                     .HasConversion(x => x.Value, v => new StoreDescription(v));
                 sp.Property(p => p.PhoneNumber)
                     .HasConversion(x => x.Value, v => new PhoneNumber(v));
-                sp.OwnsOne(p => p.Address);
+                sp.OwnsOne(p => p.Address, a =>
+                {
+                    a.Property(x => x.Street).HasColumnName("Customer_Street");
+                    a.Property(x => x.City).HasColumnName("Customer_City");
+                    a.Property(x => x.Barangay).HasColumnName("Customer_Barangay");
+                    a.Property(x => x.ZipCode).HasColumnName("Customer_ZipCode");
+                    a.Property(x => x.Country).HasColumnName("Customer_Country");
+                });
             });
         }
     }

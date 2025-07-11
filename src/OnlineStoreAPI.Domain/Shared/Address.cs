@@ -17,6 +17,8 @@ namespace OnlineStoreAPI.Domain.Shared
 
         public string Country { get; }
 
+        private Address() { }
+
         public Address(
             string street,
             string city,

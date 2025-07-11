@@ -21,8 +21,24 @@ namespace OnlineStore.Infrastructure.Configuration
                     .HasColumnName("TotalAmount_Currency");
             });
 
-            builder.OwnsOne(x => x.BillingAddress);
-            builder.OwnsOne(x => x.ShippingAddress);
+            builder.OwnsOne(x => x.BillingAddress, b =>
+            {
+                b.Property(p => p.Street).HasColumnName("BillingAddress_Street");
+                b.Property(p => p.City).HasColumnName("BillingAddress_City");
+                b.Property(p => p.Barangay).HasColumnName("BillingAddress_Barangay");
+                b.Property(p => p.ZipCode).HasColumnName("BillingAddress_ZipCode");
+                b.Property(p => p.Country).HasColumnName("BillingAddress_Country");
+            });
+
+            builder.OwnsOne(x => x.ShippingAddress, s =>
+            {
+                s.Property(p => p.Street).HasColumnName("ShippingAddress_Street");
+                s.Property(p => p.City).HasColumnName("ShippingAddress_City");
+                s.Property(p => p.Barangay).HasColumnName("ShippingAddress_Barangay");
+                s.Property(p => p.ZipCode).HasColumnName("ShippingAddress_ZipCode");
+                s.Property(p => p.Country).HasColumnName("ShippingAddress_Country");
+            });
+
 
             builder.HasMany(typeof(OrderItem)).WithOne().HasForeignKey("OrderId");
         }
