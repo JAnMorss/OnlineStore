@@ -1,0 +1,40 @@
+version: "3.8"
+
+networks:
+  defaultnetwork:
+
+services:
+  onlinestore.db:
+    image: mcr.microsoft.com/mssql/server:latest
+    container_name: onlinestore.db
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=MyStrong@Passw0rd
+    ports:
+      - "8006:1433"
+    networks:
+      - defaultnetwork
+    volumes:
+      - mssql-data:/var/opt/mssql
+
+  onlinestore.api:
+    image: ${DOCKER_REGISTRY-}onlinestoreapi
+    container_name: onlinestore.api
+    ports:
+      - "8020:80"
+    build:
+      context: .
+      dockerfile: src/OnlineStore.API/Dockerfile
+    depends_on:
+      - onlinestore.db
+    networks:
+      - defaultnetwork
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Server=onlinestore.db,1433;Database=OnlineStoreDb;User Id=sa;Password=MyStrong@Passw0rd;TrustServerCertificate=true;MultipleActiveResultSets=true
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+
+volumes:
+  mssql-data:
