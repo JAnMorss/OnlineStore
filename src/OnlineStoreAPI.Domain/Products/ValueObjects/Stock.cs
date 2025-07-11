@@ -44,5 +44,5 @@ namespace OnlineStoreAPI.Domain.Products.ValueObjects
         {
             yield return Quantity;
         }
-    }
+    } 
 }

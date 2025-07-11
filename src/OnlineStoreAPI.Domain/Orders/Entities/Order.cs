@@ -30,8 +30,6 @@ namespace OnlineStoreAPI.Domain.Orders.Entities
 
         public Guid UserId { get; private set; }
 
-        public Guid? PaymentId { get; private set; }
-
         public Payment? Payment { get; private set; } 
 
         public DateTime OrderDate { get; private set; }
@@ -60,9 +58,12 @@ namespace OnlineStoreAPI.Domain.Orders.Entities
             return Result.Success();
         }
 
-        public void AttachPayment(Guid paymentId)
+        public void AttachPayment(Payment payment)
         {
-            PaymentId = paymentId;
+            if (payment == null)
+                throw new ArgumentNullException(nameof(payment));
+
+            Payment = payment;
         }
 
         public Result Cancel()

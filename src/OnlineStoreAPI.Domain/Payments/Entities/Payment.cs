@@ -27,11 +27,11 @@ namespace OnlineStoreAPI.Domain.Payments.Entities
 
         public Guid OrderId { get; private set; }
 
+        public Order? Order { get; private set; }
+
         public Money Amount { get; private set; }
 
         public DateTime PaymentDate { get; private set; }
-
-        public Order? Order { get; private set; }
 
         public PaymentMethod PaymentMethod { get; private set; }
 

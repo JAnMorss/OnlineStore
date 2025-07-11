@@ -1,0 +1,41 @@
+[33mbdf19b6[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mjanmors[m[33m)[m chore(efcore): update configurations and domain models for consistency
+[33m5ddfa9b[m refactor(core): update product and payment command handlers
+[33m648057a[m chore(docker): add Docker support with compose and configuration
+[33ma24c7cb[m[33m ([m[1;31morigin/janmors[m[33m)[m feat: add Orders, Payments, and Reviews controllers to API
+[33m36649e0[m refactor: update controllers and review command handlers
+[33me34f12c[m feat: update API project setup and add initial controllers
+[33m5112026[m feat: add EmailVO value object for user email validation
+[33m7a98a88[m chore: add .dockerignore and initial OnlineStore.API structure
+[33m99a6dc4[m feat: add Clock and Email abstractions and DI config
+[33mdd7b134[m feat: update UserRepository and related User entity interfaces
+[33m2dc0743[m chore: remove unused GetPagedCategories query and handler
+[33mdceac66[m[33m ([m[1;31morigin/master[m[33m, [m[1;32mmaster[m[33m)[m feat(review): Implement ReviewUpdatedDomainEvent and refactor review repository
+[33m57e7a33[m feat(payment): Add GetPaymentsByOrder query and update PaymentRepository interface
+[33me4205e5[m refactor(pagination): Replace PagedResult with PaginatedResult and remove obsolete product pagination queries
+[33m94f1842[m chore(project): Update Application.csproj to include new categories, orders, and payments logic
+[33mfb9648d[m feat(payment): Introduce new application layer and error structure for payments
+[33m0a34d20[m feat(order): Add new DTOs and query structure for order read models
+[33mfedbdb3[m chore(domain): Minor adjustments to Review entity and UserCreatedDomainEvent
+[33m28881c5[m refactor(payment): Update Payment entity for extended functionality
+[33m5d362bd[m refactor(order): Adjust order and quantity value objects to support business logic changes
+[33m696451d[m feat(product): Refactor product commands and queries including stock and category filtering
+[33m36baeab[m feat(order): Update order commands for cancel, ship, and place operations
+[33mbe93578[m feat(category): Update commands and queries for CRUD and pagination
+[33md0b9079[m chore(project): Update project file to reflect new dependencies or structure
+[33m93069e9[m refactor(product): Sync IProductRepository interface with repository changes
+[33m50a0ed2[m refactor(product): Update ProductRepository to support new pagination logic
+[33m12d907a[m feat(product): Improve paged product query handling with enhanced filters
+[33m24e0e7d[m feat(order): Update PlaceOrderCommandHandler to integrate payment processing
+[33m92a2867[m refactor(order): Adjust order entity to support updated payment processing
+[33m87b9e74[m feat(payment): Add PaymentStatus value object and update Payment entity logic
+[33m71ab170[m asdas
+[33m9450b2e[m feat(shared): add new Address value object under Shared namespace
+[33m2eaf156[m refactor(domain): update category, review, and payment domain events
+[33m51a28c6[m refactor(user): remove Address VO and update user profiles
+[33m8b1aced[m refactor(product): improve product and stock domain events
+[33m6af2f96[m feat(order): add shipped and cancelled domain events and enum for order status
+[33mb61197f[m modifying categort commands Delete and Create
+[33m12373c6[m Feature: Add GetPagedProductsQuery with pagination support and page size abstraction
+[33ma3c1011[m Refactor: Move PagedResult to shared abstraction and update GetPagedCategories to reflect change
+[33m90ce50b[m Fix: Re-added src folder as regular folder, not submodule
+[33m2358efe[m Restored correct code content from Visual Studio

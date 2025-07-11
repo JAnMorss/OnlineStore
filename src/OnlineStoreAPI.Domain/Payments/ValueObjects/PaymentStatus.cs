@@ -5,12 +5,13 @@ namespace OnlineStoreAPI.Domain.Payments.ValueObjects
 {
     public sealed class PaymentStatus : ValueObject
     {
-        public string Value { get; set; }
+        public string Value { get; }
 
         private PaymentStatus(string value)
         {
             Value = value;
         }
+        public static PaymentStatus FromValue(string value) => new(value);
 
         public static PaymentStatus Pending => new("Pending");
         public static PaymentStatus Completed => new("Completed");

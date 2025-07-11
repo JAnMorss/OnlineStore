@@ -7,10 +7,14 @@ namespace OnlineStoreAPI.Domain.Payments.ValueObjects
     {
         public string Value { get; }
 
+        private PaymentMethod() { }
+
         public PaymentMethod(string value)
         {
             Value = value;
         }
+
+        public static PaymentMethod FromValue(string value) => new(value);
 
         public static readonly PaymentMethod CreditCard = new("Credit Card");
         public static readonly PaymentMethod PayPal = new("PayPal");
@@ -47,3 +51,4 @@ namespace OnlineStoreAPI.Domain.Payments.ValueObjects
 
     }
 }
+

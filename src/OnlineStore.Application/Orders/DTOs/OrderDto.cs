@@ -21,7 +21,7 @@ namespace OnlineStore.Application.Orders.DTOs
             {
                 Id = order.Id,
                 UserId = order.UserId,
-                PaymentId = order.PaymentId,
+                PaymentId = order.Payment?.Id,
                 OrderDate = order.OrderDate,
                 Currency = order.TotalAmount.Currency.Code,
                 TotalAmount = order.TotalAmount.Amount,

@@ -5,15 +5,7 @@ namespace OnlineStoreAPI.Domain.Users.Profiles
 {
     public sealed class CustomerProfile
     {
-        public FirstName FirstName { get; private set; }
-
-        public LastName LastName { get; private set; }
-
-        public PhoneNumber PhoneNumber { get; private set; }
-
-        public Address Address { get; private set; }
-
-        public string FullName => $"{FirstName.Value} {LastName.Value}";
+        private CustomerProfile() { }
 
         public CustomerProfile(
             FirstName firstName,
@@ -26,6 +18,16 @@ namespace OnlineStoreAPI.Domain.Users.Profiles
             PhoneNumber = phoneNumber;
             Address = address;
         }
+
+        public FirstName FirstName { get; private set; }
+
+        public LastName LastName { get; private set; }
+
+        public PhoneNumber PhoneNumber { get; private set; }
+
+        public Address Address { get; private set; }
+
+        public string FullName => $"{FirstName.Value} {LastName.Value}";
 
     }
 }
