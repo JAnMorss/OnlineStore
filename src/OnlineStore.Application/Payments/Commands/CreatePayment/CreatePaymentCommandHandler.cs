@@ -49,7 +49,9 @@ namespace OnlineStore.Application.Payments.Commands.CreatePayment
             );
 
             await _paymentRepository.AddAsync(payment, cancellationToken);
-            order.AttachPayment(payment.Id);
+
+            order.AttachPayment(payment);
+
             await _orderRepository.UpdateAsync(order, cancellationToken);
 
             await _unitOfWork.SaveChangesAsync(cancellationToken);

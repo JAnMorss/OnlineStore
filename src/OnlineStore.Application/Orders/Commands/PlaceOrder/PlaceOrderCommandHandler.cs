@@ -92,7 +92,7 @@ namespace OnlineStore.Application.Orders.Commands.PlaceOrder
                 PaymentStatus.Pending
             );
 
-            order.AttachPayment(payment.Id);
+            order.AttachPayment(payment);
 
             await _orderRepository.AddAsync(order, cancellationToken);
             await _paymentRepository.AddAsync(payment, cancellationToken);

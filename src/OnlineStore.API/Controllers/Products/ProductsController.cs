@@ -5,13 +5,11 @@ using OnlineStore.Application.Products.Commands.DecreaseProductStock;
 using OnlineStore.Application.Products.Commands.DeleteProduct;
 using OnlineStore.Application.Products.Commands.IncreaseProductStock;
 using OnlineStore.Application.Products.Commands.UpdateProductDetails;
-using OnlineStore.Application.Products.Commands.UpdateProductPrice;
-using OnlineStore.Application.Products.Commands.UpdateProductStock;
+using OnlineStore.Application.Products.DTO_s;
 using OnlineStore.Application.Products.Queries.GetAllProducts;
 using OnlineStore.Application.Products.Queries.GetProductById;
 using OnlineStore.Application.Products.Queries.GetProductsByCategory;
 using OnlineStore.Application.Products.Queries.SearchProducts;
-using OnlineStoreAPI.Shared.Kernel.ErrorHandling;
 
 namespace OnlineStore.API.Controllers.Products
 {
@@ -101,22 +99,6 @@ namespace OnlineStore.API.Controllers.Products
                 : BadRequest(result.Error);
         }
 
-        [HttpPut("{id:guid}/stock")]
-        public async Task<IActionResult> UpdateProductStock(
-            [FromRoute] Guid id, 
-            [FromBody] UpdateProductStockCommand command, 
-            CancellationToken cancellationToken)
-        {
-            if (id != command.ProductId)
-                return BadRequest("Product ID mismatch.");
-
-            var result = await _sender.Send(command, cancellationToken);
-
-            return result.IsSuccess
-                ? Ok(result.Value)
-                : BadRequest(result.Error);
-        }
-
         [HttpPut("{id:guid}/stock/increase")]
         public async Task<IActionResult> IncreaseProductStock(
             [FromRoute] Guid id,
@@ -135,28 +117,11 @@ namespace OnlineStore.API.Controllers.Products
 
         [HttpPut("{id:guid}/stock/decrease")]
         public async Task<IActionResult> DecreaseProductStock(
-            [FromRoute] Guid id, 
-            [FromBody] DecreaseProductStockCommand command, 
+            [FromRoute] Guid id,
+            [FromBody] DecreaseProductStockDto dto,
             CancellationToken cancellationToken)
         {
-            if (id != command.ProductId)
-                return BadRequest("Product ID mismatch.");
-
-            var result = await _sender.Send(command, cancellationToken);
-
-            return result.IsSuccess
-                ? Ok(result.Value)
-                : BadRequest(result.Error);
-        }
-
-        [HttpPut("{id:guid}/price")]
-        public async Task<IActionResult> UpdateProductPrice(
-            [FromRoute] Guid id, 
-            [FromBody] UpdateProductPriceCommand command, 
-            CancellationToken cancellationToken)
-        {
-            if (id != command.ProductId)
-                return BadRequest("Product ID mismatch.");
+            var command = new DecreaseProductStockCommand(id, dto.Quantity);
 
             var result = await _sender.Send(command, cancellationToken);
 
