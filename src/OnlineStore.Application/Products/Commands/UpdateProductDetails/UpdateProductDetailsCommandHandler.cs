@@ -29,7 +29,7 @@ namespace OnlineStore.Application.Products.Commands.UpdateProductDetails
                 new ProductName(request.Name),
                 new ProductDescription(request.Description),
                 new Money(request.Price, Currency.Php),
-                new Stock(request.Stock));
+                product.Stock);
 
             await _repository.UpdateAsync(product, cancellationToken);
 
