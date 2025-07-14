@@ -4,6 +4,7 @@ using OnlineStore.Application.Abstractions.PageSize;
 using OnlineStore.Application.Products.DTO_s;
 using OnlineStoreAPI.Domain.Products.Interfaces;
 using OnlineStoreAPI.Shared.Kernel.ErrorHandling;
+using OnlineStoreAPI.Shared.Kernel.Helpers;
 
 namespace OnlineStore.Application.Products.Queries.GetAllProducts
 {
@@ -19,13 +20,15 @@ namespace OnlineStore.Application.Products.Queries.GetAllProducts
 
         public async Task<Result<PaginatedResult<ProductResponse>>> Handle(GetAllProductsQuery request, CancellationToken cancellationToken)
         {
-            var (items, totalCount) = await _repository.GetPagedAsync(
-                request.Page,
-                request.PageSize,
-                request.SortBy,
-                request.Descending,
-                cancellationToken
-            );
+            var queryObject = new QueryObject
+            {
+                SortBy = request.SortBy,
+                Descending = request.Descending,
+                Page = request.Page,
+                PageSize = request.PageSize
+            };
+
+            var (items, totalCount) = await _repository.GetPagedAsync(queryObject, cancellationToken);
 
             var mapped = items.Select(ProductResponse.FromEntity).ToList();
 
@@ -39,3 +42,6 @@ namespace OnlineStore.Application.Products.Queries.GetAllProducts
         }
     }
 }
+
+
+
