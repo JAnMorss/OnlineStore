@@ -31,7 +31,6 @@ services:
       - defaultnetwork
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ConnectionStrings__DefaultConnection=Server=onlinestore.db,1433;Database=OnlineStoreDb;User Id=sa;Password=MyStrong@Passw0rd;TrustServerCertificate=true;MultipleActiveResultSets=true
     volumes:
       - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
       - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro

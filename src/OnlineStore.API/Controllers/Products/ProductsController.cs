@@ -5,11 +5,11 @@ using OnlineStore.Application.Products.Commands.DecreaseProductStock;
 using OnlineStore.Application.Products.Commands.DeleteProduct;
 using OnlineStore.Application.Products.Commands.IncreaseProductStock;
 using OnlineStore.Application.Products.Commands.UpdateProductDetails;
-using OnlineStore.Application.Products.DTO_s;
 using OnlineStore.Application.Products.Queries.GetAllProducts;
 using OnlineStore.Application.Products.Queries.GetProductById;
 using OnlineStore.Application.Products.Queries.GetProductsByCategory;
 using OnlineStore.Application.Products.Queries.SearchProducts;
+using OnlineStoreAPI.Shared.Kernel.Helpers;
 
 namespace OnlineStore.API.Controllers.Products
 {
@@ -62,12 +62,16 @@ namespace OnlineStore.API.Controllers.Products
 
         [HttpGet("search")]
         public async Task<IActionResult> SearchProducts(
-            [FromQuery] SearchProductsQuery query, 
-            CancellationToken cancellationToken)
+            [FromQuery] QueryObject query,
+            CancellationToken cancellationToken = default)
         {
-            var result = await _sender.Send(query, cancellationToken);
+            var searchQuery = new  SearchProductsQuery(query);
 
-            return Ok(result.Value);
+            var result = await _sender.Send(searchQuery, cancellationToken);
+
+            return result.IsSuccess 
+                ? Ok(result.Value)
+                : NotFound(result.Error);
         }
 
         [HttpPost]
@@ -86,11 +90,15 @@ namespace OnlineStore.API.Controllers.Products
         [HttpPut("{id:guid}/details")]
         public async Task<IActionResult> UpdateProductDetails(
             [FromRoute] Guid id, 
-            [FromBody] UpdateProductDetailsCommand command, 
+            [FromBody] ProductDetailsRequest request, 
             CancellationToken cancellationToken)
         {
-            if (id != command.Id)
-                return BadRequest("Product ID mismatch.");
+            var command = new UpdateProductDetailsCommand(
+                id,
+                request.CategoryId,
+                request.Name,
+                request.Description,
+                request.Price);
 
             var result = await _sender.Send(command, cancellationToken);
 
@@ -102,11 +110,10 @@ namespace OnlineStore.API.Controllers.Products
         [HttpPut("{id:guid}/stock/increase")]
         public async Task<IActionResult> IncreaseProductStock(
             [FromRoute] Guid id,
-            [FromBody] IncreaseProductStockCommand command,
+            [FromBody] ProductStockRequest request,
             CancellationToken cancellationToken)
         {
-            if (id != command.ProductId)
-                return BadRequest("Product ID mismatch.");
+            var command = new IncreaseProductStockCommand(id, request.Quantity);
 
             var result = await _sender.Send(command, cancellationToken);
 
@@ -118,10 +125,10 @@ namespace OnlineStore.API.Controllers.Products
         [HttpPut("{id:guid}/stock/decrease")]
         public async Task<IActionResult> DecreaseProductStock(
             [FromRoute] Guid id,
-            [FromBody] DecreaseProductStockDto dto,
+            [FromBody] ProductStockRequest request,
             CancellationToken cancellationToken)
         {
-            var command = new DecreaseProductStockCommand(id, dto.Quantity);
+            var command = new DecreaseProductStockCommand(id, request.Quantity);
 
             var result = await _sender.Send(command, cancellationToken);
 
