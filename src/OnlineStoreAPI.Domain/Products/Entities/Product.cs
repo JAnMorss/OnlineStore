@@ -37,6 +37,8 @@ namespace OnlineStoreAPI.Domain.Products.Entities
 
         public Guid CategoryId { get; private set; }
 
+        public string NameText => Name.Value;
+
         public static Result<Product> Create(
             Category category,
             ProductName name,

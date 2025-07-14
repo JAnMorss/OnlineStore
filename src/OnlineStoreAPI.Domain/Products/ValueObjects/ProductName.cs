@@ -14,6 +14,7 @@ namespace OnlineStoreAPI.Domain.Products.ValueObjects
             Value = value;
         }
 
+
         public static Result<ProductName> Create(string productName)
         {
             if (string.IsNullOrWhiteSpace(productName))

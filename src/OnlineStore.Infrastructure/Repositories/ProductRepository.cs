@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using OnlineStoreAPI.Domain.Products.Entities;
 using OnlineStoreAPI.Domain.Products.Interfaces;
+using OnlineStoreAPI.Shared.Kernel.Helpers;
+using static Org.BouncyCastle.Crypto.Engines.SM2Engine;
 
 namespace OnlineStore.Infrastructure.Repositories
 {
@@ -17,43 +19,75 @@ namespace OnlineStore.Infrastructure.Repositories
                 .ToListAsync(cancellationToken);
         }
 
-        public async Task<(IEnumerable<Product> Items, int TotalCount)> GetPagedAsync(int page, int pageSize, string? sortBy, bool descending, CancellationToken cancellationToken = default)
+        private (List<Product> Items, int TotalCount) ApplyPagingAndSorting(
+            List<Product> products,
+            QueryObject queryObject)
         {
-            if (page < 1) page = 1;
-            if (pageSize < 1) pageSize = 10;
+            IEnumerable<Product> sorted = products;
 
-            var query = _context.Products.AsQueryable();
-
-            query = sortBy?.ToLower() switch
+            if (!string.IsNullOrWhiteSpace(queryObject.SortBy))
             {
-                "price" => descending
-                    ? query.OrderByDescending(p => p.Price.Amount)
-                    : query.OrderBy(p => p.Price.Amount),
-                "name" => descending
-                    ? query.OrderByDescending(p => p.Name.Value)
-                    : query.OrderBy(p => p.Name.Value),
-                _=>query
-            };
+                switch (queryObject.SortBy.ToLower())
+                {
+                    case "price":
+                        sorted = queryObject.Descending
+                            ? sorted.OrderByDescending(p => p.Price.Amount)
+                            : sorted.OrderBy(p => p.Price.Amount);
+                        break;
 
-            var totalCount = await query.CountAsync(cancellationToken);
-            var pagedItems = await query
-                .Skip((page - 1) * pageSize)
-                .Take(pageSize)
-                .ToListAsync(cancellationToken);
+                    case "name":
+                        sorted = queryObject.Descending
+                            ? sorted.OrderByDescending(p => p.Name.Value)
+                            : sorted.OrderBy(p => p.Name.Value);
+                        break;
+
+                    default:
+                        sorted = sorted.OrderBy(p => p.Name.Value);
+                        break;
+                }
+            }
+            else
+            {
+                sorted = sorted.OrderBy(p => p.Name.Value);
+            }
+
+            int totalCount = sorted.Count();
+
+            var pagedItems = sorted
+                .Skip((queryObject.Page - 1) * queryObject.PageSize)
+                .Take(queryObject.PageSize)
+                .ToList();
 
             return (pagedItems, totalCount);
         }
 
-        public async Task<IEnumerable<Product>> SearchAsync(string keyword, int page, int pageSize, CancellationToken cancellationToken = default)
-        {
-            if (page < 1) page = 1;
-            if (pageSize < 1) pageSize = 10;
 
-            return await _context.Products
-                .Where(p => p.Name.Value.Contains(keyword))
-                .Skip((page - 1) * pageSize)
-                .Take(pageSize)
-                .ToListAsync(cancellationToken);
+        public async Task<(IEnumerable<Product> Items, int TotalCount)> GetPagedAsync(
+            QueryObject query,
+            CancellationToken cancellationToken = default)
+        {
+            var products = await _context.Products.ToListAsync(cancellationToken);
+
+            return ApplyPagingAndSorting(products, query);
+        }
+
+
+        public async Task<(IEnumerable<Product> Items, int TotalCount)> SearchAsync(
+            QueryObject query,
+            CancellationToken cancellationToken = default)
+        {
+            if (string.IsNullOrWhiteSpace(query.Keyword))
+            {
+                return (Enumerable.Empty<Product>(), 0);
+            }
+
+            var products = await _context.Products.ToListAsync(cancellationToken);
+
+            var filtered = products
+                .Where(p => p.Name.Value.Contains(query.Keyword, StringComparison.OrdinalIgnoreCase))
+                .ToList();
+
+            return ApplyPagingAndSorting(filtered, query);
         }
     }
 }
