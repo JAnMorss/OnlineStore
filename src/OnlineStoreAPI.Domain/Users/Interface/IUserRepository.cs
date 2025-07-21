@@ -4,7 +4,6 @@ namespace OnlineStoreAPI.Domain.Users.Interface
 {
     public interface IUserRepository
     {
-        Task<IEnumerable<User>> GetAllAsync(CancellationToken cancellationToken = default);
         Task<User?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
         Task<User?> GetByEmailAsync(string email, CancellationToken cancellationToken = default);
        

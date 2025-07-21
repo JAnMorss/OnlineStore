@@ -18,6 +18,7 @@ namespace OnlineStoreAPI.Domain.Reviews.Entities
             Comment comment,
             DateTime createdOnUtc) : base(id)
         {
+            Id = id;
             ProductId = productId;
             UserId = userId;
             Rating = rating;

@@ -1,4 +1,5 @@
 ﻿using OnlineStoreAPI.Domain.Shared;
+using OnlineStoreAPI.Domain.Users.Enum;
 using OnlineStoreAPI.Domain.Users.Errors;
 using OnlineStoreAPI.Domain.Users.Events;
 using OnlineStoreAPI.Domain.Users.Profiles;
@@ -18,15 +19,19 @@ namespace OnlineStoreAPI.Domain.Users.Entities
             EmailVO email,
             Role role) : base(id)
         {
+            Id = id;
             UserName = userName;
             Email = email;
             Role = role;
+            ProfileType = ProfileType.None;
         }
 
         public UserName UserName { get; private set; }
         public Address Address { get; private set; }
         public EmailVO Email { get; private set; }
         public Role Role { get; private set; }
+
+        public ProfileType ProfileType { get; private set; }
 
         public CustomerProfile? CustomerProfile { get; private set; }
         public SellerProfile? SellerProfile { get; private set; }
@@ -65,6 +70,8 @@ namespace OnlineStoreAPI.Domain.Users.Entities
                 phone, 
                 address);
 
+            ProfileType |= ProfileType.Customer;
+
             return Result.Success();
         }
 
@@ -85,6 +92,8 @@ namespace OnlineStoreAPI.Domain.Users.Entities
                 phone, 
                 address);
 
+            ProfileType |= ProfileType.Seller;
+
             return Result.Success();
         }
 
@@ -102,7 +111,13 @@ namespace OnlineStoreAPI.Domain.Users.Entities
             return Result.Success();
         }
 
-        public bool IsInRole(Role role) => Role.Is(role);
+        public bool IsInRole(Role role) 
+            => Role.Is(role);
+
+        public bool IsCustomer 
+            => ProfileType.HasFlag(ProfileType.Customer);
+        public bool IsSeller 
+            => ProfileType.HasFlag(ProfileType.Seller);
     }
 }
 
