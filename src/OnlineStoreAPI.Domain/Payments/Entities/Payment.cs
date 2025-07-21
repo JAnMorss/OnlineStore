@@ -18,6 +18,7 @@ namespace OnlineStoreAPI.Domain.Payments.Entities
             PaymentMethod paymentMethod,
             PaymentStatus paymentStatus) : base(id)
         {
+            Id = id;
             OrderId = orderId;
             Amount = amount;
             PaymentDate = paymentDate;
