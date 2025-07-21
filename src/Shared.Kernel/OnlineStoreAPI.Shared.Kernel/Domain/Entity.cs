@@ -8,7 +8,7 @@
         protected Entity()
         {
         }
-
+        
         protected Entity(Guid id)
         {
             Id = id;

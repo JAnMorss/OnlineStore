@@ -1,7 +1,9 @@
 ﻿namespace OnlineStoreAPI.Shared.Kernel.Helpers
 {
-    public class QueryObject
+    public class SearchQueryObject
     {
+        public string? Keyword { get; set; } = null;
+
         public string? SortBy { get; set; } = null;
 
         public bool Descending { get; set; } = false;
@@ -25,3 +27,4 @@
 
     }
 }
+
