@@ -4,7 +4,6 @@ namespace OnlineStoreAPI.Domain.Orders.Interfaces
 {
     public interface IOrderRepository
     {
-        Task<IEnumerable<Order>> GetAllAsync(CancellationToken cancellationToken = default);
 
         Task<Order?> GetByIdAsync(Guid orderId, CancellationToken cancellationToken = default);
 

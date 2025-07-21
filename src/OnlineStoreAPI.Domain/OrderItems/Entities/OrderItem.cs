@@ -14,6 +14,7 @@ namespace OnlineStoreAPI.Domain.OrderItems.Entities
             Quantity quantity,
             Money unitPrice) : base(id)
         {
+            Id = id;
             ProductId = productId;
             Quantity = quantity;
             UnitPrice = unitPrice;
