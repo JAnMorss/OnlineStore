@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using OnlineStoreAPI.Shared.Kernel.Domain;
+using OnlineStoreAPI.Shared.Kernel.Helpers;
 
 namespace OnlineStore.Infrastructure.Repositories
 {
@@ -12,11 +13,20 @@ namespace OnlineStore.Infrastructure.Repositories
             _context = context;
         }
 
-        public async Task<IEnumerable<T>> GetAllAsync(CancellationToken cancellationToken = default)
+        public virtual async Task<IEnumerable<T>> GetAllAsync(QueryObject query, CancellationToken cancellationToken = default)
         {
-            return await _context
-                .Set<T>()
-                .ToListAsync(cancellationToken);
+            var queryable = _context.Set<T>().AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(query.SortBy))
+            {
+                queryable = query.Descending
+                    ? queryable.OrderByDescending(e => EF.Property<object>(e, query.SortBy))
+                    : queryable.OrderBy(e => EF.Property<Object>(e, query.SortBy));
+            }
+
+            var skip = (query.Page - 1) * query.PageSize;
+
+            return await queryable.Skip(skip).Take(query.PageSize).ToListAsync(cancellationToken);
         }
 
         public async Task<T?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
