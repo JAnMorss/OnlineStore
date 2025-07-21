@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OnlineStore.Infrastructure;
 
@@ -11,9 +12,11 @@ using OnlineStore.Infrastructure;
 namespace OnlineStore.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250721065545_UpdateEntities")]
+    partial class UpdateEntities
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -143,8 +146,6 @@ namespace OnlineStore.Infrastructure.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CategoryId");
 
                     b.ToTable("Products", (string)null);
                 });
@@ -389,12 +390,6 @@ namespace OnlineStore.Infrastructure.Migrations
 
             modelBuilder.Entity("OnlineStoreAPI.Domain.Products.Entities.Product", b =>
                 {
-                    b.HasOne("OnlineStoreAPI.Domain.Categories.Entities.Category", "Category")
-                        .WithMany("Products")
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.OwnsOne("OnlineStoreAPI.Domain.Shared.Money", "Price", b1 =>
                         {
                             b1.Property<Guid>("ProductId")
@@ -416,8 +411,6 @@ namespace OnlineStore.Infrastructure.Migrations
                             b1.WithOwner()
                                 .HasForeignKey("ProductId");
                         });
-
-                    b.Navigation("Category");
 
                     b.Navigation("Price")
                         .IsRequired();
@@ -586,11 +579,6 @@ namespace OnlineStore.Infrastructure.Migrations
                     b.Navigation("CustomerProfile");
 
                     b.Navigation("SellerProfile");
-                });
-
-            modelBuilder.Entity("OnlineStoreAPI.Domain.Categories.Entities.Category", b =>
-                {
-                    b.Navigation("Products");
                 });
 
             modelBuilder.Entity("OnlineStoreAPI.Domain.Orders.Entities.Order", b =>
