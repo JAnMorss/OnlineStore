@@ -6,6 +6,7 @@ using OnlineStore.Application.Categories.Commands.UpdateCategory;
 using OnlineStore.Application.Categories.Queries.GetCategories;
 using OnlineStore.Application.Categories.Queries.GetCategoriesByName;
 using OnlineStore.Application.Categories.Queries.GetCategoryById;
+using OnlineStoreAPI.Shared.Kernel.Helpers;
 
 namespace OnlineStore.API.Controllers.Categories
 {
@@ -22,9 +23,11 @@ namespace OnlineStore.API.Controllers.Categories
 
         [HttpGet]
         public async Task<IActionResult> GetAllCategories(
-            [FromQuery] GetAllCategoriesQuery query, 
+            [FromQuery] QueryObject queryObject, 
             CancellationToken cancellationToken)
         {
+            var query = new GetAllCategoriesQuery(queryObject);
+
             var result = await _sender.Send(query, cancellationToken);
 
             return Ok(result.Value);
@@ -74,11 +77,10 @@ namespace OnlineStore.API.Controllers.Categories
         [HttpPut("{id:guid}")]
         public async Task<IActionResult> UpdateCategory(
             [FromRoute] Guid id, 
-            [FromBody] UpdateCategoryCommand command, 
+            [FromBody] CategoryRequest request, 
             CancellationToken cancellationToken)
         {
-            if (id != command.Id)
-                return BadRequest("Category ID mismatch.");
+            var command = new UpdateCategoryCommand(id, request.Name, request.Description);
 
             var result = await _sender.Send(command, cancellationToken);
 

@@ -1,13 +1,17 @@
-﻿using OnlineStore.Application.Abstractions.Messaging;
+﻿using MediatR;
+using OnlineStore.Application.Abstractions.Messaging;
+using OnlineStore.Application.Abstractions.PageSize;
 using OnlineStore.Application.Categories.DTOs;
 using OnlineStoreAPI.Domain.Categories.Interfaces;
 using OnlineStoreAPI.Shared.Kernel;
 using OnlineStoreAPI.Shared.Kernel.ErrorHandling;
+using OnlineStoreAPI.Shared.Kernel.Helpers;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace OnlineStore.Application.Categories.Queries.GetCategories
 {
     public sealed class GetAllCategoriesQueryHandler 
-        : IQueryHandler<GetAllCategoriesQuery, List<CategoryResponse>>
+        : IQueryHandler<GetAllCategoriesQuery, PaginatedResult<CategoryResponse>>
     {
         private readonly ICategoryRepository _repository;
 
@@ -16,13 +20,24 @@ namespace OnlineStore.Application.Categories.Queries.GetCategories
             _repository = repository;
         }
 
-        public async Task<Result<List<CategoryResponse>>> Handle(GetAllCategoriesQuery request, CancellationToken cancellationToken)
+        public async Task<Result<PaginatedResult<CategoryResponse>>> Handle(GetAllCategoriesQuery request, CancellationToken cancellationToken)
         {
-            var categories = await _repository.GetAllAsync(cancellationToken);
+            var query = request.Query ?? new QueryObject();
 
-            var result = categories
+            var categories = await _repository.GetAllAsync(query, cancellationToken);
+
+            var mapped = categories
                 .Select(CategoryResponse.FromEntity)
                 .ToList();
+
+            var totalCount = await _repository.CountAsync(cancellationToken);
+
+            var result = new PaginatedResult<CategoryResponse>(
+                mapped,
+                totalCount,
+                query.Page,
+                query.PageSize
+            );
 
             return Result.Success(result);
         }

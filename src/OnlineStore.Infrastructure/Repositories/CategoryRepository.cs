@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using OnlineStoreAPI.Domain.Categories.Entities;
 using OnlineStoreAPI.Domain.Categories.Interfaces;
+using OnlineStoreAPI.Domain.Products.Entities;
+using OnlineStoreAPI.Shared.Kernel.Helpers;
 
 namespace OnlineStore.Infrastructure.Repositories
 {
@@ -10,6 +12,29 @@ namespace OnlineStore.Infrastructure.Repositories
         {
         }
 
+        public async Task<int> CountAsync(CancellationToken cancellationToken = default)
+        {
+            return await _context.Set<Category>().CountAsync(cancellationToken);
+        }
+
+        public override async Task<IEnumerable<Category>> GetAllAsync(QueryObject query, CancellationToken cancellationToken = default)
+        {
+            var categories = _context.Categories.Include(p => p.Products).AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(query.SortBy))
+            {
+                categories = query.SortBy?.ToLower() switch
+                {
+                    "name" => query.Descending ? categories.OrderByDescending(p => p.Name) : categories.OrderBy(p => p.Name),
+                    _ => categories
+                };
+            }
+
+            var skip = (query.Page - 1) * query.PageSize;
+
+            return await categories.Skip(skip).Take(query.PageSize).ToListAsync(cancellationToken);
+        }
+
         public async Task<IEnumerable<Category>> GetByNameAsync(string name, CancellationToken cancellationToken = default)
         {
             return await _context.Categories
@@ -17,22 +42,6 @@ namespace OnlineStore.Infrastructure.Repositories
                 .ToListAsync(cancellationToken);
         }
 
-        public async Task<(IEnumerable<Category> Categories, int TotalCount)> GetPagedAsync(
-            int page,
-            int pageSize,
-            CancellationToken cancellationToken = default)
-        {
-            var query = _context.Categories.AsQueryable();
-
-            var totalCount = await query.CountAsync(cancellationToken);
-
-            var categories = await query
-                .Skip((page - 1) * pageSize)
-                .Take(pageSize)
-                .ToListAsync(cancellationToken);
-
-            return (categories, totalCount);
-        }
 
     }
 }

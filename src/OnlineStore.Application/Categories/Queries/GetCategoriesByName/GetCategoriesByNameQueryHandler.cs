@@ -1,5 +1,7 @@
-﻿using OnlineStore.Application.Abstractions.Messaging;
+﻿using System.Linq;
+using OnlineStore.Application.Abstractions.Messaging;
 using OnlineStore.Application.Categories.DTOs;
+using OnlineStore.Application.Products.DTO_s;
 using OnlineStoreAPI.Domain.Categories.Interfaces;
 using OnlineStoreAPI.Shared.Kernel.ErrorHandling;
 
@@ -22,7 +24,9 @@ namespace OnlineStore.Application.Categories.Queries.GetCategoriesByName
                 .Select(c => new CategoryResponse(
                     c.Id,
                     c.Name.Value,
-                    c.Description.Value)).ToList();
+                    c.Description.Value,
+                    new List<ProductResponse>()
+                )).ToList();
 
             return Result.Success(categoryDtos);
         }

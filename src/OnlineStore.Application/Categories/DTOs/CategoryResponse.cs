@@ -1,4 +1,5 @@
-﻿using OnlineStoreAPI.Domain.Categories.Entities;
+﻿using OnlineStore.Application.Products.DTO_s;
+using OnlineStoreAPI.Domain.Categories.Entities;
 
 namespace OnlineStore.Application.Categories.DTOs
 {
@@ -8,19 +9,31 @@ namespace OnlineStore.Application.Categories.DTOs
         public string Name { get; }
         public string Description { get; }
 
-        public CategoryResponse(Guid id, string name, string description)
+        public IReadOnlyList<ProductResponse> Products { get; }
+
+        public CategoryResponse(
+            Guid id, 
+            string name, 
+            string description, 
+            IReadOnlyList<ProductResponse> products)
         {
             Id = id;
             Name = name;
             Description = description;
+            Products = products;
         }
 
         public static CategoryResponse FromEntity(Category category)
         {
+            var productResponses = category.Products
+                    .Select(ProductResponse.FromEntity)
+                    .ToList();
+
             return new CategoryResponse(
                 category.Id,
                 category.Name.Value,
-                category.Description.Value
+                category.Description.Value,
+                productResponses
             );
         }
     }

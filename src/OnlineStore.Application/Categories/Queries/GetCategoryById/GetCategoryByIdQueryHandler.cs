@@ -1,5 +1,6 @@
 ﻿using OnlineStore.Application.Abstractions.Messaging;
 using OnlineStore.Application.Categories.DTOs;
+using OnlineStore.Application.Products.DTO_s;
 using OnlineStoreAPI.Domain.Categories.Errors;
 using OnlineStoreAPI.Domain.Categories.Interfaces;
 using OnlineStoreAPI.Shared.Kernel.ErrorHandling;
@@ -27,7 +28,8 @@ namespace OnlineStore.Application.Categories.Queries.GetCategoryById
             var dto = new CategoryResponse(
                 category.Id,
                 category.Name.Value,
-                category.Description.Value
+                category.Description.Value,
+                new List<ProductResponse>()
             );
 
             return Result.Success(dto);
