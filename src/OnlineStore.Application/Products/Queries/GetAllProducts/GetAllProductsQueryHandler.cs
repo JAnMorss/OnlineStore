@@ -20,23 +20,19 @@ namespace OnlineStore.Application.Products.Queries.GetAllProducts
 
         public async Task<Result<PaginatedResult<ProductResponse>>> Handle(GetAllProductsQuery request, CancellationToken cancellationToken)
         {
-            var queryObject = new QueryObject
-            {
-                SortBy = request.SortBy,
-                Descending = request.Descending,
-                Page = request.Page,
-                PageSize = request.PageSize
-            };
+            var query = request.Query ?? new QueryObject();
 
-            var (items, totalCount) = await _repository.GetPagedAsync(queryObject, cancellationToken);
+            var products = await _repository.GetAllAsync(query, cancellationToken);
 
-            var mapped = items.Select(ProductResponse.FromEntity).ToList();
+            var mapped = products.Select(ProductResponse.FromEntity).ToList();
+
+            var totalCount = await _repository.CountAsync(cancellationToken);
 
             var result = new PaginatedResult<ProductResponse>(
-                mapped,
-                totalCount,
-                request.Page,
-                request.PageSize);
+                   mapped,
+                   totalCount,
+                   query.Page,  
+                   query.PageSize);
 
             return Result.Success(result);
         }

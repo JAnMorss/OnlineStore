@@ -10,6 +10,7 @@ namespace OnlineStore.Application.Products.DTO_s
         public decimal Price { get; init; }
         public int Stock { get; init; }
         public Guid CategoryId { get; init; }
+        public string CategoryName { get; set; } = string.Empty;
 
         public static ProductResponse FromEntity(Product product)
         {
@@ -20,7 +21,8 @@ namespace OnlineStore.Application.Products.DTO_s
                 Description = product.Description.Value,
                 Price = product.Price.Amount,
                 Stock = product.Stock.Quantity,
-                CategoryId = product.CategoryId
+                CategoryId = product.CategoryId,
+                CategoryName = product.Category?.Name.Value ?? string.Empty
             };
         }
     }

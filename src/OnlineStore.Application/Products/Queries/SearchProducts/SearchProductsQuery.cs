@@ -5,6 +5,6 @@ using OnlineStoreAPI.Shared.Kernel.Helpers;
 
 namespace OnlineStore.Application.Products.Queries.SearchProducts
 {
-    public sealed record SearchProductsQuery(QueryObject Query) : IQuery<PaginatedResult<ProductResponse>>;
+    public sealed record SearchProductsQuery(SearchQueryObject Query) : IQuery<PaginatedResult<ProductResponse>>;
 
 }

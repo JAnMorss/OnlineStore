@@ -26,9 +26,11 @@ namespace OnlineStore.API.Controllers.Products
 
         [HttpGet]
         public async Task<IActionResult> GetAllProducts(
-            [FromQuery] GetAllProductsQuery query, 
+            [FromQuery] QueryObject queryObject, 
             CancellationToken cancellationToken)
         {
+            var query = new GetAllProductsQuery(queryObject);
+
             var result = await _sender.Send(query, cancellationToken);
 
             return Ok(result.Value);
@@ -62,7 +64,7 @@ namespace OnlineStore.API.Controllers.Products
 
         [HttpGet("search")]
         public async Task<IActionResult> SearchProducts(
-            [FromQuery] QueryObject query,
+            [FromQuery] SearchQueryObject query,
             CancellationToken cancellationToken = default)
         {
             var searchQuery = new  SearchProductsQuery(query);
