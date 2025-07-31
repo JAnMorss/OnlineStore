@@ -1,7 +1,7 @@
 version: "3.8"
 
 networks:
-  defaultnetwork:
+  backend:
 
 services:
   onlinestore.db:
@@ -10,30 +10,30 @@ services:
     environment:
       - ACCEPT_EULA=Y
       - SA_PASSWORD=MyStrong@Passw0rd
+      - MSSQL_PID=Developer
     ports:
-      - "8006:1433"
-    networks:
-      - defaultnetwork
+      - "1433:1433"
+    networks:   
+      - backend
     volumes:
       - mssql-data:/var/opt/mssql
+    restart: always
 
   onlinestore.api:
     image: ${DOCKER_REGISTRY-}onlinestoreapi
     container_name: onlinestore.api
     ports:
-      - "8020:80"
+      - "5002:80"
     build:
       context: .
       dockerfile: src/OnlineStore.API/Dockerfile
     depends_on:
       - onlinestore.db
     networks:
-      - defaultnetwork
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
+      - backend
     volumes:
-      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
-      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+      - ./src/OnlineStore.API:/app 
+      - ~/.aspnet/https:/root/.aspnet/https:ro
 
 volumes:
   mssql-data:

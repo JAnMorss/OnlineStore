@@ -2,5 +2,5 @@
 
 namespace OnlineStoreAPI.Domain.Products.Events
 {
-    public sealed class ProductCreatedDomainEvent(Guid ProductId) : IDomainEvent;
+    public sealed record ProductCreatedDomainEvent(Guid ProductId) : IDomainEvent;
 }
