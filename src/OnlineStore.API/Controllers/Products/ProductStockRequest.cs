@@ -1,4 +1,3 @@
-﻿namespace OnlineStore.API.Controllers.Products
-{
-    public sealed record ProductStockRequest(int Quantity);
-}
+﻿namespace OnlineStore.API.Controllers.Products;
+
+public sealed record ProductStockRequest(int Quantity);

@@ -14,7 +14,6 @@ namespace OnlineStoreAPI.Domain.Categories.Entities
             CategoryName name,
             CategoryDescription description) : base(id) 
         {
-            Id = id;
             Name = name;
             Description = description;
         }

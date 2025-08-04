@@ -1,39 +1,52 @@
-version: "3.8"
-
-networks:
-  backend:
-
-services:
-  onlinestore.db:
-    image: mcr.microsoft.com/mssql/server:latest
-    container_name: onlinestore.db
-    environment:
-      - ACCEPT_EULA=Y
-      - SA_PASSWORD=MyStrong@Passw0rd
-      - MSSQL_PID=Developer
-    ports:
-      - "1433:1433"
-    networks:   
-      - backend
-    volumes:
-      - mssql-data:/var/opt/mssql
-    restart: always
-
+﻿services:
   onlinestore.api:
-    image: ${DOCKER_REGISTRY-}onlinestoreapi
-    container_name: onlinestore.api
-    ports:
-      - "5002:80"
     build:
       context: .
-      dockerfile: src/OnlineStore.API/Dockerfile
+      dockerfile: Dockerfile
+    image: netcodehub/onlinestoreapi:v1
+    container_name: onlinestore.api
+    ports:
+      - "7001:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Server=onlinestore.db,1433;Database=OnlineStoreDb;User Id=sa;Password=Root1234;Trusted_Connection=False;TrustServerCertificate=true
     depends_on:
       - onlinestore.db
     networks:
-      - backend
+      - my_network
+
+  onlinestore.db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: onlinestore.db
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=Root1234
+      - MSSQL_PID=Developer
+    ports:
+      - "2000:1433"
+    networks:
+      - my_network
     volumes:
-      - ./src/OnlineStore.API:/app 
-      - ~/.aspnet/https:/root/.aspnet/https:ro
+      - mssql-data:/var/opt/mssql
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:latest
+    container_name: Keycloak_onlinestore
+    command: start-dev
+    ports:
+      - 18085:8080
+    environment:
+      KC_HEALTH_ENABLED: "true"
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+    volumes:
+      - ./.containers/identity:/opt/keycloak/data
+    networks:
+      - my_network
+
+networks:
+  my_network:
+    driver: bridge
 
 volumes:
   mssql-data:

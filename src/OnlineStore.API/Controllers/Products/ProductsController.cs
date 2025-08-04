@@ -26,7 +26,7 @@ namespace OnlineStore.API.Controllers.Products
 
         [HttpGet]
         public async Task<IActionResult> GetAllProducts(
-            [FromQuery] QueryObject queryObject, 
+            [FromQuery] QueryObject queryObject,
             CancellationToken cancellationToken)
         {
             var query = new GetAllProductsQuery(queryObject);
@@ -38,7 +38,7 @@ namespace OnlineStore.API.Controllers.Products
 
         [HttpGet("{id:guid}")]
         public async Task<IActionResult> GetProductById(
-            [FromRoute] Guid id, 
+            [FromRoute] Guid id,
             CancellationToken cancellationToken)
         {
             var query = new GetProductByIdQuery(id);
@@ -52,7 +52,7 @@ namespace OnlineStore.API.Controllers.Products
 
         [HttpGet("category/{categoryId:guid}")]
         public async Task<IActionResult> GetProductsByCategory(
-            [FromRoute] Guid categoryId, 
+            [FromRoute] Guid categoryId,
             CancellationToken cancellationToken)
         {
             var queryId = new GetProductsByCategoryQuery(categoryId);
@@ -67,18 +67,18 @@ namespace OnlineStore.API.Controllers.Products
             [FromQuery] SearchQueryObject query,
             CancellationToken cancellationToken = default)
         {
-            var searchQuery = new  SearchProductsQuery(query);
+            var searchQuery = new SearchProductsQuery(query);
 
             var result = await _sender.Send(searchQuery, cancellationToken);
 
-            return result.IsSuccess 
+            return result.IsSuccess
                 ? Ok(result.Value)
                 : NotFound(result.Error);
         }
 
         [HttpPost]
         public async Task<IActionResult> CreateProduct(
-            [FromBody] CreateProductCommand command, 
+            [FromBody] CreateProductCommand command,
             CancellationToken cancellationToken)
         {
             var result = await _sender.Send(command, cancellationToken);
@@ -91,8 +91,8 @@ namespace OnlineStore.API.Controllers.Products
 
         [HttpPut("{id:guid}/details")]
         public async Task<IActionResult> UpdateProductDetails(
-            [FromRoute] Guid id, 
-            [FromBody] ProductDetailsRequest request, 
+            [FromRoute] Guid id,
+            [FromBody] ProductDetailsRequest request,
             CancellationToken cancellationToken)
         {
             var command = new UpdateProductDetailsCommand(
@@ -141,7 +141,7 @@ namespace OnlineStore.API.Controllers.Products
 
         [HttpDelete("{id:guid}")]
         public async Task<IActionResult> DeleteProduct(
-            [FromRoute] Guid id, 
+            [FromRoute] Guid id,
             CancellationToken cancellationToken)
         {
             var command = new DeleteProductCommand(id);

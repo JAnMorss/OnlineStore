@@ -43,13 +43,6 @@ namespace OnlineStore.Application.Orders.Commands.PlaceOrder
             if (quantityResult.IsFailure)
                 return Result.Failure<Guid>(quantityResult.Error);
 
-            var orderItem = new OrderItem(
-                Guid.NewGuid(),
-                product.Id,
-                quantityResult.Value,
-                product.Price
-            );
-
             var billing = new Address(
                 request.BillingAddress.Street,
                 request.BillingAddress.City,
@@ -74,6 +67,14 @@ namespace OnlineStore.Application.Orders.Commands.PlaceOrder
                 billing,
                 shipping
             );
+
+            var orderItem = new OrderItem(
+                 Guid.NewGuid(),
+                 order.Id,
+                 product.Id,
+                 quantityResult.Value,
+                 product.Price
+             );
 
             order.AddItem(orderItem);
 

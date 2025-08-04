@@ -12,8 +12,8 @@ using OnlineStore.Infrastructure;
 namespace OnlineStore.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250721065545_UpdateEntities")]
-    partial class UpdateEntities
+    [Migration("20250804081221_InitialMig")]
+    partial class InitialMig
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -52,10 +52,7 @@ namespace OnlineStore.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("OrderId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("OrderId1")
+                    b.Property<Guid>("OrderId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("ProductId")
@@ -67,8 +64,6 @@ namespace OnlineStore.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("OrderId");
-
-                    b.HasIndex("OrderId1");
 
                     b.ToTable("OrderItems", (string)null);
                 });
@@ -147,6 +142,8 @@ namespace OnlineStore.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CategoryId");
+
                     b.ToTable("Products", (string)null);
                 });
 
@@ -208,13 +205,11 @@ namespace OnlineStore.Infrastructure.Migrations
 
             modelBuilder.Entity("OnlineStoreAPI.Domain.OrderItems.Entities.OrderItem", b =>
                 {
-                    b.HasOne("OnlineStoreAPI.Domain.Orders.Entities.Order", null)
-                        .WithMany()
-                        .HasForeignKey("OrderId");
-
-                    b.HasOne("OnlineStoreAPI.Domain.Orders.Entities.Order", null)
+                    b.HasOne("OnlineStoreAPI.Domain.Orders.Entities.Order", "Order")
                         .WithMany("OrderItems")
-                        .HasForeignKey("OrderId1");
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.OwnsOne("OnlineStoreAPI.Domain.Shared.Money", "UnitPrice", b1 =>
                         {
@@ -222,6 +217,7 @@ namespace OnlineStore.Infrastructure.Migrations
                                 .HasColumnType("uniqueidentifier");
 
                             b1.Property<decimal>("Amount")
+                                .HasPrecision(18, 2)
                                 .HasColumnType("decimal(18,2)")
                                 .HasColumnName("UnitPrice_Amount");
 
@@ -237,6 +233,8 @@ namespace OnlineStore.Infrastructure.Migrations
                             b1.WithOwner()
                                 .HasForeignKey("OrderItemId");
                         });
+
+                    b.Navigation("Order");
 
                     b.Navigation("UnitPrice")
                         .IsRequired();
@@ -326,6 +324,7 @@ namespace OnlineStore.Infrastructure.Migrations
                                 .HasColumnType("uniqueidentifier");
 
                             b1.Property<decimal>("Amount")
+                                .HasPrecision(18, 2)
                                 .HasColumnType("decimal(18,2)")
                                 .HasColumnName("TotalAmount_Amount");
 
@@ -366,7 +365,8 @@ namespace OnlineStore.Infrastructure.Migrations
                                 .HasColumnType("uniqueidentifier");
 
                             b1.Property<decimal>("Amount")
-                                .HasColumnType("decimal(18,2)")
+                                .HasPrecision(18, 4)
+                                .HasColumnType("decimal(18,4)")
                                 .HasColumnName("Amount");
 
                             b1.Property<string>("Currency")
@@ -390,13 +390,20 @@ namespace OnlineStore.Infrastructure.Migrations
 
             modelBuilder.Entity("OnlineStoreAPI.Domain.Products.Entities.Product", b =>
                 {
+                    b.HasOne("OnlineStoreAPI.Domain.Categories.Entities.Category", "Category")
+                        .WithMany("Products")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.OwnsOne("OnlineStoreAPI.Domain.Shared.Money", "Price", b1 =>
                         {
                             b1.Property<Guid>("ProductId")
                                 .HasColumnType("uniqueidentifier");
 
                             b1.Property<decimal>("Amount")
-                                .HasColumnType("decimal(18,2)")
+                                .HasPrecision(18, 4)
+                                .HasColumnType("decimal(18,4)")
                                 .HasColumnName("Price_Amount");
 
                             b1.Property<string>("Currency")
@@ -411,6 +418,8 @@ namespace OnlineStore.Infrastructure.Migrations
                             b1.WithOwner()
                                 .HasForeignKey("ProductId");
                         });
+
+                    b.Navigation("Category");
 
                     b.Navigation("Price")
                         .IsRequired();
@@ -579,6 +588,11 @@ namespace OnlineStore.Infrastructure.Migrations
                     b.Navigation("CustomerProfile");
 
                     b.Navigation("SellerProfile");
+                });
+
+            modelBuilder.Entity("OnlineStoreAPI.Domain.Categories.Entities.Category", b =>
+                {
+                    b.Navigation("Products");
                 });
 
             modelBuilder.Entity("OnlineStoreAPI.Domain.Orders.Entities.Order", b =>

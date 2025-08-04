@@ -20,7 +20,6 @@ namespace OnlineStoreAPI.Domain.Products.Entities
             Stock stock, 
             Guid categoryId) : base(id)
         {
-            Id = id;
             Name = name;
             Description = description;
             Price = price;

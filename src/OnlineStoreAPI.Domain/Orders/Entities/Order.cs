@@ -21,7 +21,6 @@ namespace OnlineStoreAPI.Domain.Orders.Entities
             Address billingAddress,
             Address shippingAddress) : base(id)
         {
-            Id = id;
             UserId = userId;
             OrderDate = orderDate;
             TotalAmount = Money.Zero(currency);

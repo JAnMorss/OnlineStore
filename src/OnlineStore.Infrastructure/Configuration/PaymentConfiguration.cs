@@ -16,11 +16,15 @@ namespace OnlineStore.Infrastructure.Configuration
 
             builder.OwnsOne(x => x.Amount, p =>
             {
-                p.Property(m => m.Amount).HasColumnName("Amount");
+                p.Property(m => m.Amount)
+                    .HasColumnName("Amount")
+                    .HasPrecision(18, 4); 
+
                 p.Property(m => m.Currency)
                     .HasConversion(c => c.Code, v => Currency.FromCode(v))
                     .HasColumnName("Currency");
             });
+
 
             builder.Property(x => x.PaymentMethod)
                 .HasConversion(

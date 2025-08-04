@@ -15,7 +15,10 @@ namespace OnlineStore.Infrastructure.Configuration
 
             builder.OwnsOne(x => x.TotalAmount, p =>
             {
-                p.Property(m => m.Amount).HasColumnName("TotalAmount_Amount");
+                p.Property(m => m.Amount)
+                    .HasColumnName("TotalAmount_Amount")
+                    .HasPrecision(18, 2);
+
                 p.Property(m => m.Currency)
                     .HasConversion(c => c.Code, v => Currency.FromCode(v))
                     .HasColumnName("TotalAmount_Currency");
@@ -39,8 +42,9 @@ namespace OnlineStore.Infrastructure.Configuration
                 s.Property(p => p.Country).HasColumnName("ShippingAddress_Country");
             });
 
-
-            builder.HasMany(typeof(OrderItem)).WithOne().HasForeignKey("OrderId");
+            builder.HasMany(o => o.OrderItems)
+                   .WithOne(oi => oi.Order)
+                   .HasForeignKey(oi => oi.OrderId);
         }
     }
 }

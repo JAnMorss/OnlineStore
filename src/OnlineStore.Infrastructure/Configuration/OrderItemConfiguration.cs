@@ -18,11 +18,19 @@ namespace OnlineStore.Infrastructure.Configuration
 
             builder.OwnsOne(x => x.UnitPrice, p =>
             {
-                p.Property(m => m.Amount).HasColumnName("UnitPrice_Amount");
+                p.Property(m => m.Amount)
+                 .HasPrecision(18, 2) 
+                 .HasColumnName("UnitPrice_Amount");
+
                 p.Property(m => m.Currency)
-                    .HasConversion(c => c.Code, v => Currency.FromCode(v))
-                    .HasColumnName("UnitPrice_Currency");
+                 .HasConversion(c => c.Code, v => Currency.FromCode(v))
+                 .HasColumnName("UnitPrice_Currency");
             });
+
+            builder.HasOne(o => o.Order)
+               .WithMany(order => order.OrderItems) 
+               .HasForeignKey(o => o.OrderId);
+
         }
     }
 }

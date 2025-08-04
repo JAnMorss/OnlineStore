@@ -8,99 +8,98 @@ using OnlineStore.Application.Categories.Queries.GetCategoriesByName;
 using OnlineStore.Application.Categories.Queries.GetCategoryById;
 using OnlineStoreAPI.Shared.Kernel.Helpers;
 
-namespace OnlineStore.API.Controllers.Categories
+namespace OnlineStore.API.Controllers.Categories;
+
+[ApiController]
+[Route("api/categories")]
+public class CategoriesController : ControllerBase
 {
-    [ApiController]
-    [Route("api/categories")]
-    public class CategoriesController : ControllerBase
+    private readonly ISender _sender;
+
+    public CategoriesController(ISender sender)
     {
-        private readonly ISender _sender;
+        _sender = sender;
+    }
 
-        public CategoriesController(ISender sender)
-        {
-            _sender = sender;
-        }
+    [HttpGet]
+    public async Task<IActionResult> GetAllCategories(
+        [FromQuery] QueryObject queryObject,
+        CancellationToken cancellationToken)
+    {
+        var query = new GetAllCategoriesQuery(queryObject);
 
-        [HttpGet]
-        public async Task<IActionResult> GetAllCategories(
-            [FromQuery] QueryObject queryObject, 
-            CancellationToken cancellationToken)
-        {
-            var query = new GetAllCategoriesQuery(queryObject);
+        var result = await _sender.Send(query, cancellationToken);
 
-            var result = await _sender.Send(query, cancellationToken);
+        return Ok(result.Value);
+    }
 
-            return Ok(result.Value);
-        }
+    [HttpGet("{id:guid}")]
+    public async Task<IActionResult> GetCategoryById(
+        [FromRoute] Guid id,
+        CancellationToken cancellationToken)
+    {
+        var query = new GetCategoryByIdQuery(id);
 
-        [HttpGet("{id:guid}")]
-        public async Task<IActionResult> GetCategoryById(
-            [FromRoute] Guid id, 
-            CancellationToken cancellationToken)
-        {
-            var query = new GetCategoryByIdQuery(id);
+        var result = await _sender.Send(query, cancellationToken);
 
-            var result = await _sender.Send(query, cancellationToken);
+        return result.IsSuccess
+            ? Ok(result.Value)
+            : NotFound(result.Error);
+    }
 
-            return result.IsSuccess
-                ? Ok(result.Value)
-                : NotFound(result.Error);
-        }
+    [HttpGet("search")]
+    public async Task<IActionResult> GetCategoriesByName(
+        [FromQuery] string name,
+        CancellationToken cancellationToken)
+    {
+        var query = new GetCategoriesByNameQuery(name);
 
-        [HttpGet("search")]
-        public async Task<IActionResult> GetCategoriesByName(
-            [FromQuery] string name, 
-            CancellationToken cancellationToken)
-        {
-            var query = new GetCategoriesByNameQuery(name);
+        var result = await _sender.Send(query, cancellationToken);
 
-            var result = await _sender.Send(query, cancellationToken);
+        return result.IsSuccess
+            ? Ok(result.Value)
+            : NotFound(result.Error);
+    }
 
-            return result.IsSuccess
-                ? Ok(result.Value)
-                : NotFound(result.Error);
-        }
+    [HttpPost]
+    public async Task<IActionResult> CreateCategory(
+        [FromBody] CreateCategoryCommand command,
+        CancellationToken cancellationToken)
+    {
+        var result = await _sender.Send(command, cancellationToken);
 
-        [HttpPost]
-        public async Task<IActionResult> CreateCategory(
-            [FromBody] CreateCategoryCommand command, 
-            CancellationToken cancellationToken)
-        {
-            var result = await _sender.Send(command, cancellationToken);
+        if (result.IsFailure)
+            return BadRequest(result.Error);
 
-            if (result.IsFailure)
-                return BadRequest(result.Error);
+        return CreatedAtAction(nameof(GetCategoryById), new { id = result.Value }, result.Value);
+    }
 
-            return CreatedAtAction(nameof(GetCategoryById), new { id = result.Value }, result.Value);
-        }
+    [HttpPut("{id:guid}")]
+    public async Task<IActionResult> UpdateCategory(
+        [FromRoute] Guid id,
+        [FromBody] CategoryRequest request,
+        CancellationToken cancellationToken)
+    {
+        var command = new UpdateCategoryCommand(id, request.Name, request.Description);
 
-        [HttpPut("{id:guid}")]
-        public async Task<IActionResult> UpdateCategory(
-            [FromRoute] Guid id, 
-            [FromBody] CategoryRequest request, 
-            CancellationToken cancellationToken)
-        {
-            var command = new UpdateCategoryCommand(id, request.Name, request.Description);
+        var result = await _sender.Send(command, cancellationToken);
 
-            var result = await _sender.Send(command, cancellationToken);
+        return result.IsSuccess
+            ? NoContent()
+            : NotFound(result.Error);
+    }
 
-            return result.IsSuccess
-                ? NoContent()
-                : NotFound(result.Error);
-        }
+    [HttpDelete("{id:guid}")]
+    public async Task<IActionResult> DeleteCategory(
+        [FromRoute] Guid id,
+        CancellationToken cancellationToken)
+    {
+        var command = new DeleteCategoryCommand(id);
 
-        [HttpDelete("{id:guid}")]
-        public async Task<IActionResult> DeleteCategory(
-            [FromRoute] Guid id, 
-            CancellationToken cancellationToken)
-        {
-            var command = new DeleteCategoryCommand(id);
+        var result = await _sender.Send(command, cancellationToken);
 
-            var result = await _sender.Send(command, cancellationToken);
-
-            return result.IsSuccess
-                ? NoContent()
-                : NotFound(result.Error);
-        }
+        return result.IsSuccess
+            ? NoContent()
+            : NotFound(result.Error);
     }
 }

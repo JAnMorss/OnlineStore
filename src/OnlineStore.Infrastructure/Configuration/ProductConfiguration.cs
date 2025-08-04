@@ -25,11 +25,15 @@ namespace OnlineStore.Infrastructure.Configuration
 
             builder.OwnsOne(p => p.Price, p =>
             {
-                p.Property(p => p.Amount).HasColumnName("Price_Amount");
+                p.Property(p => p.Amount)
+                    .HasColumnName("Price_Amount")
+                    .HasPrecision(18, 4);
+
                 p.Property(p => p.Currency)
                     .HasConversion(c => c.Code, value => Currency.FromCode(value))
                     .HasColumnName("Price_Currency");
             });
+
         }
     }
 }

@@ -19,7 +19,6 @@ namespace OnlineStoreAPI.Domain.Users.Entities
             EmailVO email,
             Role role) : base(id)
         {
-            Id = id;
             UserName = userName;
             Email = email;
             Role = role;
