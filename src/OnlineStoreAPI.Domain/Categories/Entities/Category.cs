@@ -5,7 +5,7 @@ using OnlineStoreAPI.Shared.Kernel.Domain;
 
 namespace OnlineStoreAPI.Domain.Categories.Entities
 {
-    public class Category : Entity
+    public class Category : BaseEntity
     {
         private Category() { }
 

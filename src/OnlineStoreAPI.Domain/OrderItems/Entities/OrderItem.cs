@@ -5,7 +5,7 @@ using OnlineStoreAPI.Shared.Kernel.Domain;
 
 namespace OnlineStoreAPI.Domain.OrderItems.Entities;
 
-public sealed class OrderItem : Entity
+public sealed class OrderItem : BaseEntity
 {
     private OrderItem() { }
 

@@ -8,7 +8,7 @@ using OnlineStoreAPI.Domain.Products.Errors;
 
 namespace OnlineStoreAPI.Domain.Products.Entities
 {
-    public sealed class Product : Entity
+    public sealed class Product : BaseEntity
     {
         private Product() { }
 

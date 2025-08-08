@@ -9,7 +9,7 @@ using OnlineStoreAPI.Shared.Kernel.ErrorHandling;
 
 namespace OnlineStoreAPI.Domain.Users.Entities
 {
-    public sealed class User : Entity
+    public sealed class User : BaseEntity
     {
         private User() { }
 

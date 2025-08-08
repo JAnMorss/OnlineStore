@@ -6,7 +6,7 @@ using OnlineStoreAPI.Shared.Kernel.ErrorHandling;
 
 namespace OnlineStoreAPI.Domain.Reviews.Entities
 {
-    public sealed class Review : Entity
+    public sealed class Review : BaseEntity
     {
         private Review() { }
 

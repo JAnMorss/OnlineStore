@@ -9,7 +9,7 @@ using OnlineStoreAPI.Shared.Kernel.ErrorHandling;
 
 namespace OnlineStoreAPI.Domain.Orders.Entities
 {
-    public sealed class Order : Entity
+    public sealed class Order : BaseEntity
     {
         private Order() { }
 

@@ -6,7 +6,7 @@ using OnlineStoreAPI.Shared.Kernel.Domain;
 
 namespace OnlineStoreAPI.Domain.Payments.Entities
 {
-    public sealed class Payment : Entity
+    public sealed class Payment : BaseEntity
     {
         private Payment() { }
 
