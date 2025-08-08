@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using OnlineStore.Application.Abstractions.Messaging;
+﻿using OnlineStoreAPI.Shared.Kernel.Application.Query;
 using OnlineStore.Application.Categories.DTOs;
 using OnlineStore.Application.Products.DTO_s;
 using OnlineStoreAPI.Domain.Categories.Interfaces;

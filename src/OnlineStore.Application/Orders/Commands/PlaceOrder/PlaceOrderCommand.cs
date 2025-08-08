@@ -1,4 +1,4 @@
-﻿using OnlineStore.Application.Abstractions.Messaging;
+﻿using OnlineStoreAPI.Shared.Kernel.Application.Command;
 using OnlineStore.Application.Orders.DTOs;
 using OnlineStoreAPI.Domain.Payments.ValueObjects;
 using OnlineStoreAPI.Domain.Shared;

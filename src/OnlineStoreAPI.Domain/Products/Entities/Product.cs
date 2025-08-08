@@ -10,7 +10,13 @@ namespace OnlineStoreAPI.Domain.Products.Entities
 {
     public sealed class Product : BaseEntity
     {
-        private Product() { }
+        private Product() 
+        {
+            Name = null!;
+            Description = null!;
+            Price = Money.Zero(Currency.None);
+            Stock = Stock.Empty;
+        }
 
         public Product(
             Guid id,

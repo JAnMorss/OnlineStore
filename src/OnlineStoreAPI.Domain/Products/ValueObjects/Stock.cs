@@ -11,6 +11,7 @@ namespace OnlineStoreAPI.Domain.Products.ValueObjects
         {
             Quantity = quantity;
         }
+        public static Stock Empty => new Stock(0);
 
         public static Result<Stock> Create(int quantity)
         {
@@ -44,5 +45,6 @@ namespace OnlineStoreAPI.Domain.Products.ValueObjects
         {
             yield return Quantity;
         }
+
     } 
 }

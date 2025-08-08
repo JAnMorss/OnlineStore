@@ -1,12 +1,9 @@
-﻿using MediatR;
-using OnlineStore.Application.Abstractions.Messaging;
-using OnlineStore.Application.Abstractions.PageSize;
+﻿using OnlineStoreAPI.Shared.Kernel.Application.Query;
 using OnlineStore.Application.Categories.DTOs;
 using OnlineStoreAPI.Domain.Categories.Interfaces;
-using OnlineStoreAPI.Shared.Kernel;
 using OnlineStoreAPI.Shared.Kernel.ErrorHandling;
 using OnlineStoreAPI.Shared.Kernel.Helpers;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+using OnlineStore.Application.Shared.PageSize;
 
 namespace OnlineStore.Application.Categories.Queries.GetCategories
 {

@@ -1,6 +1,6 @@
-﻿using OnlineStore.Application.Abstractions.Messaging;
-using OnlineStore.Application.Abstractions.PageSize;
-using OnlineStore.Application.Categories.DTOs;
+﻿using OnlineStore.Application.Categories.DTOs;
+using OnlineStore.Application.Shared.PageSize;
+using OnlineStoreAPI.Shared.Kernel.Application.Query;
 using OnlineStoreAPI.Shared.Kernel.Helpers;
 
 namespace OnlineStore.Application.Categories.Queries.GetCategories

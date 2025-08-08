@@ -1,4 +1,4 @@
-﻿using OnlineStore.Application.Abstractions.Messaging;
+﻿using OnlineStoreAPI.Shared.Kernel.Application.Query;
 using OnlineStore.Application.Products.DTO_s;
 
 namespace OnlineStore.Application.Products.Queries.GetProductsByCategory

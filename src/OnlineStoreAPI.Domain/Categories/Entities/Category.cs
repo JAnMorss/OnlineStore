@@ -7,7 +7,11 @@ namespace OnlineStoreAPI.Domain.Categories.Entities
 {
     public class Category : BaseEntity
     {
-        private Category() { }
+        private Category() 
+        {
+            Name = null!;
+            Description = null!;
+        }
 
         public Category(
             Guid id,

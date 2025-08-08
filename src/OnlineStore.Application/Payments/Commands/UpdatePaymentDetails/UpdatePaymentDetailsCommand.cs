@@ -1,4 +1,4 @@
-﻿using OnlineStore.Application.Abstractions.Messaging;
+﻿using OnlineStoreAPI.Shared.Kernel.Application.Command;
 using OnlineStoreAPI.Domain.Payments.ValueObjects;
 
 namespace OnlineStore.Application.Payments.Commands.UpdatePaymentDetails

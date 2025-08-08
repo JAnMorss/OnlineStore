@@ -1,4 +1,4 @@
-﻿using OnlineStore.Application.Abstractions.Clock;
+﻿using OnlineStoreAPI.Shared.Kernel.Application.Clock;
 
 namespace OnlineStore.Infrastructure.Clock
 {

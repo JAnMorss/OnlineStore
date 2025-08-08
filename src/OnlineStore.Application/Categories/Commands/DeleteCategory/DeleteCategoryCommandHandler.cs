@@ -1,7 +1,7 @@
-﻿using OnlineStore.Application.Abstractions.Messaging;
-using OnlineStoreAPI.Domain.Categories.Errors;
+﻿using OnlineStoreAPI.Domain.Categories.Errors;
 using OnlineStoreAPI.Domain.Categories.Interfaces;
 using OnlineStoreAPI.Shared.Kernel;
+using OnlineStoreAPI.Shared.Kernel.Application.Command;
 using OnlineStoreAPI.Shared.Kernel.ErrorHandling;
 
 namespace OnlineStore.Application.Categories.Commands.DeleteCategory

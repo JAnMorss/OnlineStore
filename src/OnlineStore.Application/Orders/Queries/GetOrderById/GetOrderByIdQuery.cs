@@ -1,5 +1,5 @@
-﻿using OnlineStore.Application.Abstractions.Messaging;
-using OnlineStore.Application.Orders.DTOs;
+﻿using OnlineStore.Application.Orders.DTOs;
+using OnlineStoreAPI.Shared.Kernel.Application.Query;
 
 namespace OnlineStore.Application.Orders.Queries.GetOrderById
 {

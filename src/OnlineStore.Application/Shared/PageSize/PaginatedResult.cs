@@ -1,4 +1,4 @@
-﻿namespace OnlineStore.Application.Abstractions.PageSize
+﻿namespace OnlineStore.Application.Shared.PageSize
 {
     public sealed class PaginatedResult<T>
     {

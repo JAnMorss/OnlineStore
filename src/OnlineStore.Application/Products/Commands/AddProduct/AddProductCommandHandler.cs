@@ -6,8 +6,7 @@ using OnlineStoreAPI.Domain.Products.ValueObjects;
 using OnlineStoreAPI.Domain.Shared;
 using OnlineStoreAPI.Shared.Kernel.ErrorHandling;
 using OnlineStoreAPI.Shared.Kernel;
-using OnlineStore.Application.Abstractions.Messaging;
-using MediatR;
+using OnlineStoreAPI.Shared.Kernel.Application.Command;
 
 namespace OnlineStore.Application.Products.Commands.AddProduct
 {

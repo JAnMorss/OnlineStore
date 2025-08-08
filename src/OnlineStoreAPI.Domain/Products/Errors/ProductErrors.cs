@@ -28,6 +28,8 @@ namespace OnlineStoreAPI.Domain.Products.Errors
             "Product.InvalidStockQuantity",
             "The stock quantity must be greater than or equal to zero.");
 
-
+        public static Error NullValue = new(
+            "Product.NullValue",
+            "The product value cannot be null.");
     }
 }

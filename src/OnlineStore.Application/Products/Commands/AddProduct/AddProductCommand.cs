@@ -1,5 +1,4 @@
-﻿
-using OnlineStore.Application.Abstractions.Messaging;
+﻿using OnlineStoreAPI.Shared.Kernel.Application.Command;
 
 namespace OnlineStore.Application.Products.Commands.AddProduct;
 

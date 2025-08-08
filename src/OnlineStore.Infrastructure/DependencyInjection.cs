@@ -1,8 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using OnlineStore.Application.Abstractions.Clock;
-using OnlineStore.Application.Abstractions.Email;
 using OnlineStore.Infrastructure.Clock;
 using OnlineStore.Infrastructure.Email;
 using OnlineStore.Infrastructure.Repositories;
@@ -13,6 +11,8 @@ using OnlineStoreAPI.Domain.Products.Interfaces;
 using OnlineStoreAPI.Domain.Reviews.Interfaces;
 using OnlineStoreAPI.Domain.Users.Interface;
 using OnlineStoreAPI.Shared.Kernel;
+using OnlineStoreAPI.Shared.Kernel.Application.Clock;
+using OnlineStoreAPI.Shared.Kernel.Application.Email;
 
 namespace OnlineStore.Infrastructure
 {
