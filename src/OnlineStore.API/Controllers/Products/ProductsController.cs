@@ -1,6 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using OnlineStore.Application.Products.Commands.CreateProduct;
+using OnlineStore.Application.Products.Commands.AddProduct;
 using OnlineStore.Application.Products.Commands.DecreaseProductStock;
 using OnlineStore.Application.Products.Commands.DeleteProduct;
 using OnlineStore.Application.Products.Commands.IncreaseProductStock;
@@ -78,7 +78,7 @@ namespace OnlineStore.API.Controllers.Products
 
         [HttpPost]
         public async Task<IActionResult> CreateProduct(
-            [FromBody] CreateProductCommand command,
+            [FromBody] AddProductCommand command,
             CancellationToken cancellationToken)
         {
             var result = await _sender.Send(command, cancellationToken);
