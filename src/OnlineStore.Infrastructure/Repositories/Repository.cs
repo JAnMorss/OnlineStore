@@ -4,7 +4,7 @@ using OnlineStoreAPI.Shared.Kernel.Helpers;
 
 namespace OnlineStore.Infrastructure.Repositories
 {
-    internal abstract class Repository<T> where T : Entity
+    internal abstract class Repository<T> where T : BaseEntity
     {
         protected readonly ApplicationDbContext _context;
 

@@ -49,7 +49,7 @@ namespace OnlineStore.Infrastructure
         private async Task PublishDomainEventsAsync()
         {
             var domainEvents = ChangeTracker
-                .Entries<Entity>()
+                .Entries<BaseEntity>()
                 .Select(e => e.Entity)
                 .SelectMany(entity =>
                 {
