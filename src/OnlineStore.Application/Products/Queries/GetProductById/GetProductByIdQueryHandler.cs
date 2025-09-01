@@ -1,7 +1,7 @@
 ﻿using OnlineStoreAPI.Shared.Kernel.Application.Query;
-using OnlineStore.Application.Products.DTO_s;
 using OnlineStoreAPI.Domain.Products.Interfaces;
 using OnlineStoreAPI.Shared.Kernel.ErrorHandling;
+using OnlineStore.Application.Products.Responses;
 
 namespace OnlineStore.Application.Products.Queries.GetProductById
 {

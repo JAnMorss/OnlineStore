@@ -12,6 +12,7 @@
       - ConnectionStrings__DefaultConnection=Server=onlinestore.db,1433;Database=OnlineStoreDb;User Id=sa;Password=Root1234;Trusted_Connection=False;TrustServerCertificate=true
     depends_on:
       - onlinestore.db
+      - keycloak
     networks:
       - my_network
 

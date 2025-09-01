@@ -71,5 +71,10 @@ namespace OnlineStore.Infrastructure.Repositories
                 .AnyAsync(x => x.Id == id, cancellationToken);
         }
 
+        public void Add(T entity)
+        {
+            _context.Add(entity);
+        }
+
     }
 }

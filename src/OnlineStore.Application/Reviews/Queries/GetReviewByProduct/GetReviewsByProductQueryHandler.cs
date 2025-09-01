@@ -1,11 +1,11 @@
 ﻿using OnlineStoreAPI.Shared.Kernel.Application.Query;
-using OnlineStore.Application.Reviews.DTOs;
 using OnlineStoreAPI.Domain.Reviews.Interfaces;
 using OnlineStoreAPI.Shared.Kernel.ErrorHandling;
+using OnlineStore.Application.Reviews.Responses;
 
 namespace OnlineStore.Application.Reviews.Queries.GetReviewByProduct
 {
-    public sealed class GetReviewsByProductQueryHandler : IQueryHandler<GetReviewsByProductQuery, List<ReviewDto>>
+    public sealed class GetReviewsByProductQueryHandler : IQueryHandler<GetReviewsByProductQuery, List<ReviewResponse>>
     {
         private readonly IReviewRepository _reviewRepository;
 
@@ -14,7 +14,7 @@ namespace OnlineStore.Application.Reviews.Queries.GetReviewByProduct
             _reviewRepository = reviewRepository;
         }
 
-        public async Task<Result<List<ReviewDto>>> Handle(GetReviewsByProductQuery request, CancellationToken cancellationToken)
+        public async Task<Result<List<ReviewResponse>>> Handle(GetReviewsByProductQuery request, CancellationToken cancellationToken)
         {
             var reviews = await _reviewRepository.GetByProductIdAsync(request.ProductId, cancellationToken);
 
@@ -22,7 +22,7 @@ namespace OnlineStore.Application.Reviews.Queries.GetReviewByProduct
                 .OrderByDescending(r => r.CreatedOnUtc)
                 .Skip((request.PageNumber - 1) * request.PageSize)
                 .Take(request.PageSize)
-                .Select(ReviewDto.FromEntity)
+                .Select(ReviewResponse.FromEntity)
                 .ToList();
 
             return Result.Success(result);

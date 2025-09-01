@@ -1,12 +1,12 @@
 ﻿using OnlineStoreAPI.Shared.Kernel.Application.Query;
-using OnlineStore.Application.Payments.DTOs;
 using OnlineStoreAPI.Domain.Payments.Interfaces;
 using OnlineStoreAPI.Shared.Kernel.ErrorHandling;
+using OnlineStore.Application.Payments.Responses;
 
 namespace OnlineStore.Application.Payments.Queries.GetPaymentsByOrder
 {
     public sealed class GetPaymentsByOrderQueryHandler
-        : IQueryHandler<GetPaymentsByOrderQuery, List<PaymentDto>>
+        : IQueryHandler<GetPaymentsByOrderQuery, List<PaymentResponse>>
     {
         private readonly IPaymentRepository _paymentRepository;
 
@@ -15,7 +15,7 @@ namespace OnlineStore.Application.Payments.Queries.GetPaymentsByOrder
             _paymentRepository = paymentRepository;
         }
 
-        public async Task<Result<List<PaymentDto>>> Handle(GetPaymentsByOrderQuery request, CancellationToken cancellationToken)
+        public async Task<Result<List<PaymentResponse>>> Handle(GetPaymentsByOrderQuery request, CancellationToken cancellationToken)
         {
             var payment = await _paymentRepository.GetByOrderIdAsync(request.OrderId, cancellationToken);
 
@@ -23,7 +23,7 @@ namespace OnlineStore.Application.Payments.Queries.GetPaymentsByOrder
                 .OrderByDescending(p => p.PaymentDate)
                 .Skip((request.PageNumber - 1) * request.PageSize)
                 .Take(request.PageSize)
-                .Select(PaymentDto.FromEntity)
+                .Select(PaymentResponse.FromEntity)
                 .ToList();
 
             return Result.Success(result);

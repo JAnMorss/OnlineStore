@@ -19,8 +19,8 @@ namespace OnlineStoreAPI.Domain.Users.ValueObjects
             if (string.IsNullOrWhiteSpace(firstName))
             {
                 return Result.Failure<FirstName>(new Error(
-                    "FistName.Empty",
-                    "FistName is Empty"));
+                    "FirstName.Empty",
+                    "FirstName is Empty"));
             }
 
             if (firstName.Length > MaxLength)

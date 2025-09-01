@@ -1,8 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using OnlineStore.Infrastructure.Authentication;
 using OnlineStore.Infrastructure.Clock;
 using OnlineStore.Infrastructure.Email;
+using OnlineStore.Infrastructure.Extensions;
 using OnlineStore.Infrastructure.Repositories;
 using OnlineStoreAPI.Domain.Categories.Interfaces;
 using OnlineStoreAPI.Domain.Orders.Interfaces;
@@ -22,10 +25,6 @@ namespace OnlineStore.Infrastructure
             this IServiceCollection services,
             IConfiguration configuration)
         {
-            services.AddTransient<IDateTimeProvider, DateTimeProvider>();
-
-            services.AddTransient<IEmailService, EmailService>();
-
             var connectionString = configuration.GetConnectionString("DefaultConnection") ??
                 throw new InvalidOperationException("Connection string 'Database' is missing in configuration.");
 
@@ -41,7 +40,6 @@ namespace OnlineStore.Infrastructure
                 });
             });
 
-
             services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<ApplicationDbContext>());
 
             services.AddScoped<ICategoryRepository, CategoryRepository>();
@@ -50,6 +48,13 @@ namespace OnlineStore.Infrastructure
             services.AddScoped<IPaymentRepository, PaymentRepository>();
             services.AddScoped<IReviewRepository, ReviewRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
+
+            services.AddTransient<IDateTimeProvider, DateTimeProvider>();
+            services.AddTransient<IEmailService, EmailService>();
+
+            services.AddCustomAuthentication(configuration);
+
+            //services.AddScoped<IClaimsTransformation, KeycloakRoleClaimsTransformation>();
 
             return services;
         }

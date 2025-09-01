@@ -76,13 +76,11 @@ namespace OnlineStoreAPI.Domain.Products.Entities
         public void UpdateDetails(
             ProductName name, 
             ProductDescription description, 
-            Money price, 
-            Stock stock)
+            Money price)
         {
             Name = name;
             Description = description;
             Price = price;
-            Stock = stock;
 
             RaiseDomainEvent(new ProductUpdatedDomainEvent(Id));
         }

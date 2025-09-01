@@ -1,8 +1,8 @@
 ﻿using OnlineStoreAPI.Domain.Reviews.Entities;
 
-namespace OnlineStore.Application.Reviews.DTOs
+namespace OnlineStore.Application.Reviews.Responses
 {
-    public sealed class ReviewDto
+    public sealed class ReviewResponse
     {
         public Guid Id { get; init; }
         public Guid ProductId { get; init; }
@@ -11,7 +11,7 @@ namespace OnlineStore.Application.Reviews.DTOs
         public string Comment { get; init; }
         public DateTime CreatedOnUtc { get; init; }
 
-        public static ReviewDto FromEntity(Review review) => new()
+        public static ReviewResponse FromEntity(Review review) => new()
         {
             Id = review.Id,
             ProductId = review.ProductId,

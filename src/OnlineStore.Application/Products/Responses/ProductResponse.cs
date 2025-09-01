@@ -1,6 +1,6 @@
 ﻿using OnlineStoreAPI.Domain.Products.Entities;
 
-namespace OnlineStore.Application.Products.DTO_s
+namespace OnlineStore.Application.Products.Responses
 {
     public sealed class ProductResponse
     {

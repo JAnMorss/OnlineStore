@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OnlineStore.Application.Products.Commands.AddProduct;
 using OnlineStore.Application.Products.Commands.DecreaseProductStock;
@@ -13,6 +14,7 @@ using OnlineStoreAPI.Shared.Kernel.Helpers;
 
 namespace OnlineStore.API.Controllers.Products
 {
+    //[Authorize]
     [ApiController]
     [Route("api/products")]
     public class ProductsController : ControllerBase
@@ -97,7 +99,6 @@ namespace OnlineStore.API.Controllers.Products
         {
             var command = new UpdateProductDetailsCommand(
                 id,
-                request.CategoryId,
                 request.Name,
                 request.Description,
                 request.Price);

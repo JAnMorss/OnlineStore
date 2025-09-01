@@ -183,12 +183,25 @@ namespace OnlineStore.Infrastructure.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
-                    b.Property<int>("ProfileType")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Role")
+                    b.Property<string>("FirstName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("IdentityId")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.Property<string>("UserName")
                         .IsRequired()
@@ -196,6 +209,12 @@ namespace OnlineStore.Infrastructure.Migrations
                         .HasColumnType("nvarchar(100)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Email")
+                        .IsUnique();
+
+                    b.HasIndex("IdentityId")
+                        .IsUnique();
 
                     b.ToTable("Users", (string)null);
                 });
@@ -420,171 +439,6 @@ namespace OnlineStore.Infrastructure.Migrations
 
                     b.Navigation("Price")
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("OnlineStoreAPI.Domain.Users.Entities.User", b =>
-                {
-                    b.OwnsOne("OnlineStoreAPI.Domain.Shared.Address", "Address", b1 =>
-                        {
-                            b1.Property<Guid>("UserId")
-                                .HasColumnType("uniqueidentifier");
-
-                            b1.HasKey("UserId");
-
-                            b1.ToTable("Users");
-
-                            b1.WithOwner()
-                                .HasForeignKey("UserId");
-                        });
-
-                    b.OwnsOne("OnlineStoreAPI.Domain.Users.Profiles.CustomerProfile", "CustomerProfile", b1 =>
-                        {
-                            b1.Property<Guid>("UserId")
-                                .HasColumnType("uniqueidentifier");
-
-                            b1.Property<string>("FirstName")
-                                .IsRequired()
-                                .HasColumnType("nvarchar(max)");
-
-                            b1.Property<string>("LastName")
-                                .IsRequired()
-                                .HasColumnType("nvarchar(max)");
-
-                            b1.Property<string>("PhoneNumber")
-                                .IsRequired()
-                                .HasColumnType("nvarchar(max)");
-
-                            b1.HasKey("UserId");
-
-                            b1.ToTable("Users");
-
-                            b1.WithOwner()
-                                .HasForeignKey("UserId");
-
-                            b1.OwnsOne("OnlineStoreAPI.Domain.Shared.Address", "Address", b2 =>
-                                {
-                                    b2.Property<Guid>("CustomerProfileUserId")
-                                        .HasColumnType("uniqueidentifier");
-
-                                    b2.Property<string>("Barangay")
-                                        .IsRequired()
-                                        .ValueGeneratedOnUpdateSometimes()
-                                        .HasColumnType("nvarchar(max)")
-                                        .HasColumnName("Customer_Barangay");
-
-                                    b2.Property<string>("City")
-                                        .IsRequired()
-                                        .ValueGeneratedOnUpdateSometimes()
-                                        .HasColumnType("nvarchar(max)")
-                                        .HasColumnName("Customer_City");
-
-                                    b2.Property<string>("Country")
-                                        .IsRequired()
-                                        .ValueGeneratedOnUpdateSometimes()
-                                        .HasColumnType("nvarchar(max)")
-                                        .HasColumnName("Customer_Country");
-
-                                    b2.Property<string>("Street")
-                                        .IsRequired()
-                                        .ValueGeneratedOnUpdateSometimes()
-                                        .HasColumnType("nvarchar(max)")
-                                        .HasColumnName("Customer_Street");
-
-                                    b2.Property<string>("ZipCode")
-                                        .IsRequired()
-                                        .ValueGeneratedOnUpdateSometimes()
-                                        .HasColumnType("nvarchar(max)")
-                                        .HasColumnName("Customer_ZipCode");
-
-                                    b2.HasKey("CustomerProfileUserId");
-
-                                    b2.ToTable("Users");
-
-                                    b2.WithOwner()
-                                        .HasForeignKey("CustomerProfileUserId");
-                                });
-
-                            b1.Navigation("Address")
-                                .IsRequired();
-                        });
-
-                    b.OwnsOne("OnlineStoreAPI.Domain.Users.Profiles.SellerProfile", "SellerProfile", b1 =>
-                        {
-                            b1.Property<Guid>("UserId")
-                                .HasColumnType("uniqueidentifier");
-
-                            b1.Property<string>("PhoneNumber")
-                                .IsRequired()
-                                .HasColumnType("nvarchar(max)");
-
-                            b1.Property<string>("ShopName")
-                                .IsRequired()
-                                .HasColumnType("nvarchar(max)");
-
-                            b1.Property<string>("StoreDescription")
-                                .IsRequired()
-                                .HasColumnType("nvarchar(max)");
-
-                            b1.HasKey("UserId");
-
-                            b1.ToTable("Users");
-
-                            b1.WithOwner()
-                                .HasForeignKey("UserId");
-
-                            b1.OwnsOne("OnlineStoreAPI.Domain.Shared.Address", "Address", b2 =>
-                                {
-                                    b2.Property<Guid>("SellerProfileUserId")
-                                        .HasColumnType("uniqueidentifier");
-
-                                    b2.Property<string>("Barangay")
-                                        .IsRequired()
-                                        .ValueGeneratedOnUpdateSometimes()
-                                        .HasColumnType("nvarchar(max)")
-                                        .HasColumnName("Customer_Barangay");
-
-                                    b2.Property<string>("City")
-                                        .IsRequired()
-                                        .ValueGeneratedOnUpdateSometimes()
-                                        .HasColumnType("nvarchar(max)")
-                                        .HasColumnName("Customer_City");
-
-                                    b2.Property<string>("Country")
-                                        .IsRequired()
-                                        .ValueGeneratedOnUpdateSometimes()
-                                        .HasColumnType("nvarchar(max)")
-                                        .HasColumnName("Customer_Country");
-
-                                    b2.Property<string>("Street")
-                                        .IsRequired()
-                                        .ValueGeneratedOnUpdateSometimes()
-                                        .HasColumnType("nvarchar(max)")
-                                        .HasColumnName("Customer_Street");
-
-                                    b2.Property<string>("ZipCode")
-                                        .IsRequired()
-                                        .ValueGeneratedOnUpdateSometimes()
-                                        .HasColumnType("nvarchar(max)")
-                                        .HasColumnName("Customer_ZipCode");
-
-                                    b2.HasKey("SellerProfileUserId");
-
-                                    b2.ToTable("Users");
-
-                                    b2.WithOwner()
-                                        .HasForeignKey("SellerProfileUserId");
-                                });
-
-                            b1.Navigation("Address")
-                                .IsRequired();
-                        });
-
-                    b.Navigation("Address")
-                        .IsRequired();
-
-                    b.Navigation("CustomerProfile");
-
-                    b.Navigation("SellerProfile");
                 });
 
             modelBuilder.Entity("OnlineStoreAPI.Domain.Categories.Entities.Category", b =>

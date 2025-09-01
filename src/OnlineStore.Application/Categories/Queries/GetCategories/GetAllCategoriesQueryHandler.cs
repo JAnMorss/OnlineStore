@@ -1,9 +1,9 @@
 ﻿using OnlineStoreAPI.Shared.Kernel.Application.Query;
-using OnlineStore.Application.Categories.DTOs;
 using OnlineStoreAPI.Domain.Categories.Interfaces;
 using OnlineStoreAPI.Shared.Kernel.ErrorHandling;
 using OnlineStoreAPI.Shared.Kernel.Helpers;
 using OnlineStore.Application.Shared.PageSize;
+using OnlineStore.Application.Categories.Responses;
 
 namespace OnlineStore.Application.Categories.Queries.GetCategories
 {

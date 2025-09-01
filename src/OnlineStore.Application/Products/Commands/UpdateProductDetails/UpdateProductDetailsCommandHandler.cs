@@ -26,10 +26,9 @@ namespace OnlineStore.Application.Products.Commands.UpdateProductDetails
                 return Result.Failure<Guid>(ProductErrors.NotFound);
 
             product.UpdateDetails(
-                new ProductName(request.Name),
-                new ProductDescription(request.Description),
-                new Money(request.Price, Currency.Php),
-                product.Stock);
+                ProductName.Create(request.Name).Value,
+                ProductDescription.Create(request.Description).Value,
+                Money.Create(request.Price, Currency.Php).Value);
 
             await _repository.UpdateAsync(product, cancellationToken);
 

@@ -1,8 +1,8 @@
 ﻿using OnlineStoreAPI.Domain.Orders.Entities;
 
-namespace OnlineStore.Application.Orders.DTOs
+namespace OnlineStore.Application.Orders.Responses
 {
-    public sealed class OrderDto
+    public sealed class OrderResponse
     {
         public Guid Id { get; init; }
         public Guid UserId { get; init; }
@@ -13,11 +13,11 @@ namespace OnlineStore.Application.Orders.DTOs
         public string BillingAddress { get; init; }
         public string ShippingAddress { get; init; }
         public string Status { get; init; }
-        public IReadOnlyList<OrderItemDto> Items { get; init; } = [];
+        public IReadOnlyList<OrderItemResponse> Items { get; init; } = [];
 
-        public static OrderDto FromEntity(Order order)
+        public static OrderResponse FromEntity(Order order)
         {
-            return new OrderDto
+            return new OrderResponse
             {
                 Id = order.Id,
                 UserId = order.UserId,
@@ -29,7 +29,7 @@ namespace OnlineStore.Application.Orders.DTOs
                 ShippingAddress = order.ShippingAddress.ToString(),
                 Status = order.Status.ToString(),
                 Items = order.OrderItems
-                     .Select(OrderItemDto.FromEntity)
+                     .Select(OrderItemResponse.FromEntity)
                      .ToList()
             };
         }

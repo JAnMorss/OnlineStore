@@ -1,8 +1,8 @@
 ﻿using OnlineStoreAPI.Domain.OrderItems.Entities;
 
-namespace OnlineStore.Application.Orders.DTOs
+namespace OnlineStore.Application.Orders.Responses
 {
-    public sealed class OrderItemDto
+    public sealed class OrderItemResponse
     {
         public Guid Id { get; init; }
         public Guid ProductId { get; init; }
@@ -10,9 +10,9 @@ namespace OnlineStore.Application.Orders.DTOs
         public decimal UnitPrice { get; init; }
         public decimal TotalPrice { get; init; }
 
-        public static OrderItemDto FromEntity(OrderItem item)
+        public static OrderItemResponse FromEntity(OrderItem item)
         {
-            return new OrderItemDto
+            return new OrderItemResponse
             {
                 Id = item.Id,
                 ProductId = item.ProductId,

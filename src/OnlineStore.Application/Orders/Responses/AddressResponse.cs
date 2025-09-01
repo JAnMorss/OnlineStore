@@ -1,6 +1,6 @@
-﻿namespace OnlineStore.Application.Orders.DTOs
+﻿namespace OnlineStore.Application.Orders.Responses
 {
-    public sealed class AddressDto
+    public sealed class AddressResponse
     {
         public string Street { get; set; } = default!;
 

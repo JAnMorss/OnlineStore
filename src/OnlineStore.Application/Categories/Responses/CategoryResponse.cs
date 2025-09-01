@@ -1,7 +1,7 @@
-﻿using OnlineStore.Application.Products.DTO_s;
+﻿using OnlineStore.Application.Products.Responses;
 using OnlineStoreAPI.Domain.Categories.Entities;
 
-namespace OnlineStore.Application.Categories.DTOs
+namespace OnlineStore.Application.Categories.Responses
 {
     public sealed class CategoryResponse
     {

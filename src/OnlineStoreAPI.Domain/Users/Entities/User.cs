@@ -1,8 +1,5 @@
-﻿using OnlineStoreAPI.Domain.Shared;
-using OnlineStoreAPI.Domain.Users.Enum;
-using OnlineStoreAPI.Domain.Users.Errors;
+﻿using OnlineStoreAPI.Domain.Users.Errors;
 using OnlineStoreAPI.Domain.Users.Events;
-using OnlineStoreAPI.Domain.Users.Profiles;
 using OnlineStoreAPI.Domain.Users.ValueObjects;
 using OnlineStoreAPI.Shared.Kernel.Domain;
 using OnlineStoreAPI.Shared.Kernel.ErrorHandling;
@@ -16,107 +13,53 @@ namespace OnlineStoreAPI.Domain.Users.Entities
         public User(
             Guid id,
             UserName userName,
+            FirstName firstName,
+            LastName lastName,
             EmailVO email,
-            Role role) : base(id)
+            PhoneNumber phoneNumber) : base(id)
         {
             UserName = userName;
             Email = email;
-            Role = role;
-            ProfileType = ProfileType.None;
+            FirstName = firstName;
+            LastName = lastName;
+            PhoneNumber = phoneNumber;
         }
 
         public UserName UserName { get; private set; }
-        public Address Address { get; private set; }
+
+        public FirstName FirstName { get; private set; }
+
+        public LastName LastName { get; private set; }
+
         public EmailVO Email { get; private set; }
-        public Role Role { get; private set; }
 
-        public ProfileType ProfileType { get; private set; }
+        public PhoneNumber PhoneNumber { get; private set; }
 
-        public CustomerProfile? CustomerProfile { get; private set; }
-        public SellerProfile? SellerProfile { get; private set; }
-
+        public string IdentityId { get; private set; } = string.Empty;
 
         public static Result<User> Create(
-            UserName userName,
-            EmailVO email,
-            Role role)
+                UserName userName,
+                FirstName firstName,
+                LastName lastName,
+                EmailVO email,
+                PhoneNumber phoneNumber)
         {
             var user = new User(
                 Guid.NewGuid(),
                 userName,
+                firstName,
+                lastName,
                 email,
-                role);
+                phoneNumber);
 
             user.RaiseDomainEvent(new UserCreatedDomainEvent(user.Id, user.Email.Value));
 
             return Result.Success(user);
         }
 
-        public Result AddCustomerProfile(
-            FirstName firstName,
-            LastName lastName,
-            PhoneNumber phone,
-            Address address)
+        public void SetIdentityId(string identityId)
         {
-            if (CustomerProfile is not null)
-            { 
-                return Result.Failure(UserErrors.CustomerProfileExists); 
-            }
-
-            CustomerProfile = new CustomerProfile(
-                firstName, 
-                lastName, 
-                phone, 
-                address);
-
-            ProfileType |= ProfileType.Customer;
-
-            return Result.Success();
+            IdentityId = identityId;
         }
-
-        public Result AddSellerProfile(
-            ShopName shopName,
-            StoreDescription description,
-            PhoneNumber phone,
-            Address address)
-        {
-            if (SellerProfile is not null)
-            {
-                return Result.Failure(UserErrors.SellerProfileExists);
-            }
-
-            SellerProfile = new SellerProfile(
-                shopName, 
-                description, 
-                phone, 
-                address);
-
-            ProfileType |= ProfileType.Seller;
-
-            return Result.Success();
-        }
-
-        public Result ChangeRole(Role newRole)
-        {
-            if (Role.Is(newRole))
-            { 
-                return Result.Failure(UserErrors.UserSameRole); 
-            }
-
-            Role = newRole;
-
-            RaiseDomainEvent(new UserRoleChangedDomainEvent(Id, Role.Value));
-
-            return Result.Success();
-        }
-
-        public bool IsInRole(Role role) 
-            => Role.Is(role);
-
-        public bool IsCustomer 
-            => ProfileType.HasFlag(ProfileType.Customer);
-        public bool IsSeller 
-            => ProfileType.HasFlag(ProfileType.Seller);
     }
 }
-

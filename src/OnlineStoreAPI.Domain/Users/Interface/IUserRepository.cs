@@ -11,5 +11,7 @@ namespace OnlineStoreAPI.Domain.Users.Interface
         Task UpdateAsync(User user, CancellationToken cancellationToken = default);
         Task<bool> DeleteAsync(Guid id, CancellationToken cancellationToken = default);
         Task<bool> ExistsAsync(Guid id, CancellationToken cancellationToken = default);
+
+        void Add(User user);
     }
 }

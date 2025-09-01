@@ -1,5 +1,4 @@
-﻿using OnlineStoreAPI.Domain.Users.Profiles;
-using OnlineStoreAPI.Shared.Kernel.ErrorHandling;
+﻿using OnlineStoreAPI.Shared.Kernel.ErrorHandling;
 
 namespace OnlineStoreAPI.Domain.Users.Errors
 {
@@ -20,5 +19,9 @@ namespace OnlineStoreAPI.Domain.Users.Errors
         public static Error UserSameRole= new (
             "User.SameRole", 
             "The new role is the same as the current role.");
+
+        public static Error PasswordEmpty = new(
+            "Password.Empty",
+            "Password cannot be empty.");
     }
 }

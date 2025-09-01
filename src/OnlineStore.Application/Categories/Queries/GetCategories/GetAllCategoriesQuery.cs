@@ -1,4 +1,4 @@
-﻿using OnlineStore.Application.Categories.DTOs;
+﻿using OnlineStore.Application.Categories.Responses;
 using OnlineStore.Application.Shared.PageSize;
 using OnlineStoreAPI.Shared.Kernel.Application.Query;
 using OnlineStoreAPI.Shared.Kernel.Helpers;

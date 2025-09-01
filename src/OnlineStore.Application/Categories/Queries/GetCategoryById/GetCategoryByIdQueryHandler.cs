@@ -1,9 +1,9 @@
 ﻿using OnlineStoreAPI.Shared.Kernel.Application.Query;
-using OnlineStore.Application.Categories.DTOs;
-using OnlineStore.Application.Products.DTO_s;
 using OnlineStoreAPI.Domain.Categories.Errors;
 using OnlineStoreAPI.Domain.Categories.Interfaces;
 using OnlineStoreAPI.Shared.Kernel.ErrorHandling;
+using OnlineStore.Application.Categories.Responses;
+using OnlineStore.Application.Products.Responses;
 
 namespace OnlineStore.Application.Categories.Queries.GetCategoryById
 {
@@ -25,14 +25,14 @@ namespace OnlineStore.Application.Categories.Queries.GetCategoryById
                 return Result.Failure<CategoryResponse>(CategoryErrors.NotFound);
             }
 
-            var dto = new CategoryResponse(
+            var result = new CategoryResponse(
                 category.Id,
                 category.Name.Value,
                 category.Description.Value,
                 new List<ProductResponse>()
             );
 
-            return Result.Success(dto);
+            return Result.Success(result);
 
         }
     }

@@ -1,6 +1,6 @@
-﻿namespace OnlineStore.Application.Payments.DTOs
+﻿namespace OnlineStore.Application.Payments.Responses
 {
-    public sealed class PaymentDto 
+    public sealed class PaymentResponse 
     {
         public Guid Id { get; set; }
         public Guid OrderId { get; set; }
@@ -10,9 +10,9 @@
         public string PaymentMethod { get; set; } = default!;
         public string PaymentStatus { get; set; } = default!;
 
-        public static PaymentDto FromEntity(OnlineStoreAPI.Domain.Payments.Entities.Payment payment)
+        public static PaymentResponse FromEntity(OnlineStoreAPI.Domain.Payments.Entities.Payment payment)
         {
-            return new PaymentDto
+            return new PaymentResponse
             {
                 Id = payment.Id,
                 OrderId = payment.OrderId,

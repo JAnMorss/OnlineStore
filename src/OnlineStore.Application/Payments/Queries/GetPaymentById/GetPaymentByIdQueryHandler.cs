@@ -1,13 +1,13 @@
 ﻿using OnlineStoreAPI.Shared.Kernel.Application.Query;
-using OnlineStore.Application.Payments.DTOs;
 using OnlineStoreAPI.Domain.Payments.Errors;
 using OnlineStoreAPI.Domain.Payments.Interfaces;
 using OnlineStoreAPI.Shared.Kernel.ErrorHandling;
+using OnlineStore.Application.Payments.Responses;
 
 namespace OnlineStore.Application.Payments.Queries.GetPaymentById
 {
     public sealed class GetPaymentByIdQueryHandler
-        : IQueryHandler<GetPaymentByIdQuery, PaymentDto>
+        : IQueryHandler<GetPaymentByIdQuery, PaymentResponse>
     {
         private readonly IPaymentRepository _paymentRepository;
 
@@ -16,13 +16,13 @@ namespace OnlineStore.Application.Payments.Queries.GetPaymentById
             _paymentRepository = paymentRepository;
         }
 
-        public async Task<Result<PaymentDto>> Handle(GetPaymentByIdQuery request, CancellationToken cancellationToken)
+        public async Task<Result<PaymentResponse>> Handle(GetPaymentByIdQuery request, CancellationToken cancellationToken)
         {
             var payment = await _paymentRepository.GetByIdAsync(request.PaymentId, cancellationToken);
             if (payment == null) 
-                return Result.Failure<PaymentDto>(PaymentErrors.NotFound);
+                return Result.Failure<PaymentResponse>(PaymentErrors.NotFound);
 
-            var result = PaymentDto.FromEntity(payment);
+            var result = PaymentResponse.FromEntity(payment);
 
             return Result.Success(result);
 

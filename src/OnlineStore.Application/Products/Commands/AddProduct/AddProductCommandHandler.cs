@@ -31,11 +31,11 @@ namespace OnlineStore.Application.Products.Commands.AddProduct
 
             var productResult = Product.Create(
                 category,
-                new ProductName(request.Name),
-                new ProductDescription(request.Description),
+                ProductName.Create(request.Name).Value,
+                ProductDescription.Create(request.Description).Value,
                 request.Price,
                 Currency.Php,
-                new Stock(request.Stock));
+                Stock.Create(request.Stock).Value);
 
             if (productResult.IsFailure)
                 return Result.Failure<Guid>(productResult.Error);
